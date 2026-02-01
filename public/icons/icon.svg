@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Mental Models">
+  <defs>
+    <linearGradient id="deck" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f5e9d6" />
+      <stop offset="1" stop-color="#f3c9a9" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f4c5c" />
+      <stop offset="1" stop-color="#357266" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#deck)" />
+  <rect x="94" y="110" width="300" height="300" rx="36" fill="#ffffff" opacity="0.85" />
+  <rect x="120" y="140" width="300" height="300" rx="36" fill="#ffffff" opacity="0.7" />
+  <rect x="146" y="170" width="300" height="300" rx="36" fill="url(#accent)" />
+  <path d="M214 312c0-56 42-96 98-96 24 0 46 7 63 19l-24 34c-10-7-24-12-39-12-34 0-56 24-56 55 0 33 22 56 56 56 18 0 33-5 45-15l24 33c-18 14-41 23-69 23-56 0-98-40-98-97z" fill="#f5f2ea" />
+</svg>
