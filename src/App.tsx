@@ -217,7 +217,7 @@ function App() {
   const navigationTimeout = useRef<number | null>(null)
 
   const fetchModels = async (options?: { bypassCache?: boolean }) => {
-    const baseUrl = new URL(import.meta.env.BASE_URL || './', document.baseURI)
+    const baseUrl = new URL('./', window.location.href)
     const path = options?.bypassCache
       ? `models-latest.json?ts=${Date.now()}`
       : 'models-latest.json'
