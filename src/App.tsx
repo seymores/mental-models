@@ -200,7 +200,7 @@ function App() {
     navigator.maxTouchPoints === 0 &&
     !('ontouchstart' in window)
 
-  const { x: dragX, y: dragY, isDragging, isDismissing } = dragState
+  const { x: dragX, isDragging, isDismissing } = dragState
 
   const pointerState = useRef({
     active: false,
@@ -657,7 +657,7 @@ function App() {
     finalizeInteraction(dx, dy, elapsed)
   }
 
-  const handlePointerCancel = (event: React.PointerEvent) => {
+  const handlePointerCancel = () => {
     if (!pointerState.current.active || pointerState.current.inputType !== 'pointer' || isDismissing) return
     resetDrag()
   }
