@@ -3,6 +3,8 @@
 A swipeable, flipable deck of mental models with a clean, editorial card design.  
 Built with React + TypeScript + Vite.
 
+👉 https://seymores.github.io/mental-models/
+
 ## Features
 - **Swipe navigation:** Left/right swipes move through the deck with a stacked-card animation.
 - **Tap to flip:** Front shows the headline and principle; back shows the full details.
