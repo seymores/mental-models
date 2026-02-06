@@ -862,7 +862,18 @@
   color: var(--ink);
   cursor: pointer;
   transition: transform 140ms ease, background-color 140ms ease,
-    border-color 140ms ease;
+  border-color 140ms ease;
+}
+
+.index-card__item--intro {
+  border-color: color-mix(in srgb, #9e8f82 42%, var(--ui-border) 58%);
+  background: color-mix(in srgb, #e6ddd4 16%, #ffffff 84%);
+  grid-template-columns: 3ch minmax(0, 1fr);
+}
+
+.index-card__item--intro:hover {
+  background: color-mix(in srgb, #e6ddd4 24%, #ffffff 76%);
+  border-color: color-mix(in srgb, #9e8f82 50%, var(--ui-border) 50%);
 }
 
 .index-card__item:hover {
@@ -910,6 +921,69 @@
 .index-card__item-badge {
   justify-self: flex-end;
   white-space: nowrap;
+}
+
+.index-card__virtual {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.index-card__virtual-back {
+  align-self: flex-start;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  background: #ffffff;
+  color: var(--ink-soft);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.index-card__virtual-back:hover {
+  border-color: rgba(79, 70, 63, 0.26);
+}
+
+.index-card__virtual-back:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.index-card__virtual-card {
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  background: #ffffff;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.index-card__virtual-title {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.index-card__virtual-link {
+  color: var(--accent);
+  font-size: 0.86rem;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-all;
+}
+
+.index-card__virtual-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.index-card__virtual-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .app__footer {
@@ -1036,6 +1110,12 @@
   .index-card__item-badge {
     grid-area: badge;
     justify-self: flex-start;
+  }
+
+  .index-card__item--intro {
+    grid-template-columns: 3ch minmax(0, 1fr);
+    grid-template-areas: 'order title';
+    row-gap: 0;
   }
 
   .app__update {

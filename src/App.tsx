@@ -7,6 +7,8 @@ import { useFlip } from './core/useFlip'
 import { useSwipe } from './core/useSwipe'
 import { getCardRenderer, getDeckAdapter } from './content/registry.tsx'
 
+const GITHUB_REPO_URL = 'https://github.com/seymores/mental-models'
+
 const fetchManifest = async (options?: { bypassCache?: boolean }) => {
   const baseUrl = new URL('./', window.location.href)
   const path = options?.bypassCache
@@ -73,6 +75,7 @@ function App() {
   const [isJumping, setIsJumping] = useState(false)
   const [isIndexOpen, setIsIndexOpen] = useState(false)
   const [indexQuery, setIndexQuery] = useState('')
+  const [isIntroCardOpen, setIsIntroCardOpen] = useState(false)
   const [isLandscapeBlocked, setIsLandscapeBlocked] = useState(
     isLandscapePhoneViewport
   )
@@ -159,11 +162,19 @@ function App() {
     [cards]
   )
 
+  const normalizedIndexQuery = indexQuery.trim().toLowerCase()
+
   const filteredIndexEntries = useMemo(() => {
-    const query = indexQuery.trim().toLowerCase()
-    if (!query) return indexEntries
-    return indexEntries.filter((entry) => entry.title.toLowerCase().includes(query))
-  }, [indexEntries, indexQuery])
+    if (!normalizedIndexQuery) return indexEntries
+    return indexEntries.filter((entry) =>
+      entry.title.toLowerCase().includes(normalizedIndexQuery)
+    )
+  }, [indexEntries, normalizedIndexQuery])
+
+  const showIntroEntry = useMemo(() => {
+    if (!normalizedIndexQuery) return true
+    return 'introduction'.includes(normalizedIndexQuery)
+  }, [normalizedIndexQuery])
 
   const currentCardId = total ? cards[currentIndexSafe]?.id : null
 
@@ -190,17 +201,20 @@ function App() {
   const openIndex = useCallback(() => {
     if (!total) return
     setIndexQuery('')
+    setIsIntroCardOpen(false)
     setIsIndexOpen(true)
   }, [total])
 
   const closeIndex = useCallback(() => {
     setIndexQuery('')
+    setIsIntroCardOpen(false)
     setIsIndexOpen(false)
   }, [])
 
   const jumpFromIndex = useCallback(
     (id: string) => {
       setIndexQuery('')
+      setIsIntroCardOpen(false)
       setIsIndexOpen(false)
       jumpToCard(id)
     },
@@ -460,7 +474,9 @@ function App() {
             <header className="index-card__header">
               <div className="index-card__heading">
                 <h2 id="deck-index-title" className="index-card__title">
-                  {indexEntries.length} Mental Models
+                  {isIntroCardOpen
+                    ? 'Introduction'
+                    : `${indexEntries.length} Mental Models`}
                 </h2>
               </div>
               <button
@@ -471,52 +487,89 @@ function App() {
                 Close
               </button>
             </header>
-            <div className="index-card__search-row">
-              <input
-                className="index-card__search"
-                type="search"
-                value={indexQuery}
-                onChange={(event) => setIndexQuery(event.target.value)}
-                placeholder="Search model titles"
-                aria-label="Search mental models"
-                autoComplete="off"
-              />
-            </div>
+            {!isIntroCardOpen && (
+              <div className="index-card__search-row">
+                <input
+                  className="index-card__search"
+                  type="search"
+                  value={indexQuery}
+                  onChange={(event) => setIndexQuery(event.target.value)}
+                  placeholder="Search model titles"
+                  aria-label="Search mental models"
+                  autoComplete="off"
+                />
+              </div>
+            )}
             <div className="index-card__list">
-              {filteredIndexEntries.length === 0 ? (
-                <p className="index-card__empty">No matching models found.</p>
-              ) : (
-                filteredIndexEntries.map((entry, index) => (
+              {isIntroCardOpen ? (
+                <article className="index-card__virtual" aria-label="Introduction card">
                   <button
-                    key={entry.id}
                     type="button"
-                    className={`index-card__item${
-                      currentCardId === entry.id ? ' is-current' : ''
-                    }`}
-                    style={
-                      {
-                        '--index-accent': entry.badgeColor,
-                      } as React.CSSProperties
-                    }
-                    onClick={() => jumpFromIndex(entry.id)}
+                    className="index-card__virtual-back"
+                    onClick={() => setIsIntroCardOpen(false)}
                   >
-                    <span className="index-card__item-order">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span className="index-card__item-title">{entry.title}</span>
-                    <span
-                      className="card__badge card__badge--back index-card__item-badge"
-                      style={
-                        {
-                          '--card-border': entry.badgeColor,
-                          '--card-theme': entry.badgeColor,
-                        } as React.CSSProperties
-                      }
-                    >
-                      {entry.badge}
-                    </span>
+                    Back to index
                   </button>
-                ))
+                  <div className="index-card__virtual-card">
+                    <p className="index-card__virtual-title">Thank you</p>
+                    <a
+                      className="index-card__virtual-link"
+                      href={GITHUB_REPO_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {GITHUB_REPO_URL}
+                    </a>
+                  </div>
+                </article>
+              ) : (
+                showIntroEntry || filteredIndexEntries.length > 0 ? (
+                  <>
+                    {showIntroEntry && (
+                      <button
+                        type="button"
+                        className="index-card__item index-card__item--intro"
+                        onClick={() => setIsIntroCardOpen(true)}
+                      >
+                        <span className="index-card__item-order">0</span>
+                        <span className="index-card__item-title">Introduction</span>
+                      </button>
+                    )}
+                    {filteredIndexEntries.map((entry, index) => (
+                      <button
+                        key={entry.id}
+                        type="button"
+                        className={`index-card__item${
+                          currentCardId === entry.id ? ' is-current' : ''
+                        }`}
+                        style={
+                          {
+                            '--index-accent': entry.badgeColor,
+                          } as React.CSSProperties
+                        }
+                        onClick={() => jumpFromIndex(entry.id)}
+                      >
+                        <span className="index-card__item-order">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="index-card__item-title">{entry.title}</span>
+                        <span
+                          className="card__badge card__badge--back index-card__item-badge"
+                          style={
+                            {
+                              '--card-border': entry.badgeColor,
+                              '--card-theme': entry.badgeColor,
+                            } as React.CSSProperties
+                          }
+                        >
+                          {entry.badge}
+                        </span>
+                      </button>
+                    ))}
+                  </>
+                ) : (
+                  <p className="index-card__empty">No matching models found.</p>
+                )
               )}
             </div>
           </article>
