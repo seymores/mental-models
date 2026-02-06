@@ -55,6 +55,13 @@ const loadDeck = async (
   return adapter.load(payload)
 }
 
+const isLandscapePhoneViewport = () => {
+  if (typeof window === 'undefined') return false
+  const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches
+  const isPhoneLikeViewport = window.matchMedia('(max-width: 1024px)').matches
+  return isCoarsePointer && isPhoneLikeViewport && window.innerWidth > window.innerHeight
+}
+
 function App() {
   const [deck, setDeck] = useState<DeckDescriptor | null>(null)
   const [cards, setCards] = useState<Card[]>([])
@@ -66,6 +73,9 @@ function App() {
   const [isJumping, setIsJumping] = useState(false)
   const [isIndexOpen, setIsIndexOpen] = useState(false)
   const [indexQuery, setIndexQuery] = useState('')
+  const [isLandscapeBlocked, setIsLandscapeBlocked] = useState(
+    isLandscapePhoneViewport
+  )
 
   const pendingUpdate = useRef<DeckLoadResult | null>(null)
   const updateTimeout = useRef<number | null>(null)
@@ -152,12 +162,7 @@ function App() {
   const filteredIndexEntries = useMemo(() => {
     const query = indexQuery.trim().toLowerCase()
     if (!query) return indexEntries
-    return indexEntries.filter((entry) => {
-      return (
-        entry.title.toLowerCase().includes(query) ||
-        entry.badge.toLowerCase().includes(query)
-      )
-    })
+    return indexEntries.filter((entry) => entry.title.toLowerCase().includes(query))
   }, [indexEntries, indexQuery])
 
   const currentCardId = total ? cards[currentIndexSafe]?.id : null
@@ -218,6 +223,31 @@ function App() {
       rewindCard()
     }
   }
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const updateOrientationState = () => {
+      setIsLandscapeBlocked(isLandscapePhoneViewport())
+    }
+    updateOrientationState()
+    window.addEventListener('resize', updateOrientationState)
+    window.addEventListener('orientationchange', updateOrientationState)
+    return () => {
+      window.removeEventListener('resize', updateOrientationState)
+      window.removeEventListener('orientationchange', updateOrientationState)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const orientation = window.screen?.orientation as
+      | (ScreenOrientation & { lock?: (mode: string) => Promise<void> })
+      | undefined
+    if (!orientation?.lock) return
+    void orientation.lock('portrait').catch(() => {
+      // Some browsers require fullscreen/user gesture and will ignore this.
+    })
+  }, [])
 
   useEffect(() => {
     if (!isIndexOpen) return
@@ -447,7 +477,7 @@ function App() {
                 type="search"
                 value={indexQuery}
                 onChange={(event) => setIndexQuery(event.target.value)}
-                placeholder="Search models or categories"
+                placeholder="Search model titles"
                 aria-label="Search mental models"
                 autoComplete="off"
               />
@@ -526,6 +556,25 @@ function App() {
           </div>
         )}
       </footer>
+
+      {isLandscapeBlocked && (
+        <section
+          className="orientation-guard"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Rotate to portrait mode"
+        >
+          <div className="orientation-guard__content">
+            <div className="orientation-guard__icon" aria-hidden="true">
+              <span className="orientation-guard__phone" />
+            </div>
+            <h2 className="orientation-guard__title">Portrait Mode Only</h2>
+            <p className="orientation-guard__text">
+              Rotate your phone back to portrait to continue.
+            </p>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

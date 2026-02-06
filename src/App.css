@@ -44,6 +44,81 @@
   background: radial-gradient(circle, #b9dedc 0%, transparent 70%);
 }
 
+.orientation-guard {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  padding: calc(env(safe-area-inset-top) + 20px)
+    calc(env(safe-area-inset-right) + 20px)
+    calc(env(safe-area-inset-bottom) + 20px)
+    calc(env(safe-area-inset-left) + 20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(244, 213, 188, 0.42), transparent 46%),
+    radial-gradient(circle at 84% 80%, rgba(185, 222, 220, 0.34), transparent 44%),
+    rgba(251, 247, 241, 0.94);
+  backdrop-filter: blur(2px);
+}
+
+.orientation-guard__content {
+  width: min(420px, 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--ui-radius-lg);
+  padding: 22px 18px;
+  text-align: center;
+  background: var(--card);
+  box-shadow: 0 14px 32px rgba(44, 24, 10, 0.14);
+}
+
+.orientation-guard__icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--ui-radius);
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.orientation-guard__phone {
+  width: 24px;
+  height: 38px;
+  border: 2px solid var(--ink-soft);
+  border-radius: 7px;
+  position: relative;
+  transform: rotate(90deg);
+}
+
+.orientation-guard__phone::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--ink-soft);
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translateX(-50%);
+}
+
+.orientation-guard__title {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 4.2vw, 1.9rem);
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.orientation-guard__text {
+  margin: 10px 0 0;
+  color: var(--muted-dark);
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
 .app__header {
   width: min(480px, 100%);
   display: flex;
