@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const SELF_DESTROYING_SW_RELEASE = true
+
 // https://vite.dev/config/
 export default defineConfig({
   base: './',
@@ -12,6 +14,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // One-time release to unregister old service workers and clear stale caches.
+      // Set this back to false on the next release to restore normal offline behavior.
+      selfDestroying: SELF_DESTROYING_SW_RELEASE,
       includeAssets: [
         'icons/icon.svg',
         'icons/icon-192.png',
