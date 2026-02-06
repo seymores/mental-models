@@ -3,22 +3,8 @@
   "deckId": "mental-models",
   "type": "mental-models",
   "generatedAt": "2026-02-01T11:12:18.076670Z",
-  "count": 270,
+  "count": 260,
   "models": [
-    {
-      "id": "people-confirmation-bias",
-      "title": "Confirmation Bias",
-      "category": "People",
-      "principle": "The tendency to search for, interpret, favor, and recall information that confirms your pre-existing beliefs while giving disproportionately less attention to information that contradicts them.",
-      "coreConcept": "Confirmation bias is one of the most pervasive cognitive biases affecting human judgment. Once we form an opinion, we unconsciously seek evidence that supports it and dismiss evidence against it. This creates echo chambers in thinking, prevents learning, and leads to poor decisions because we're working with a filtered version of reality.",
-      "example": "**Medical Misdiagnosis:** A doctor sees a patient with fatigue, weight loss, and mood changes. Based on initial symptoms, the doctor suspects depression and begins looking for confirming evidence—asking about stress, sleep problems, and life satisfaction.\nThe patient mentions work stress (confirms hypothesis) but also mentions feeling cold all the time and hair loss. The doctor, focused on the depression diagnosis, attributes these to stress and poor self-care. In reality, the patient has hypothyroidism—a thyroid condition that causes all these symptoms.\nBecause the doctor locked onto depression early, confirmation bias caused them to seek and emphasize information supporting that diagnosis while downplaying contradictory physical symptoms.",
-      "tryThis": "Think of a strong opinion you hold about something important (politics, business strategy, parenting, diet). Now deliberately search for credible sources that disagree with your position. Force yourself to read three articles or studies that challenge your view. Can you steel-man their argument (present it in its strongest form)? Did you learn anything that modifies your position, even slightly?",
-      "related": [
-        "Anchoring Bias",
-        "Cognitive Dissonance",
-        "Selection Bias"
-      ]
-    },
     {
       "id": "people-anchoring-bias",
       "title": "Anchoring Bias",
@@ -131,8 +117,7 @@
         "Sunk Cost Fallacy",
         "Endowment Effect",
         "Status Quo Bias",
-        "Prospect Theory",
-        "Risk Aversion"
+        "Prospect Theory"
       ]
     },
     {
@@ -329,8 +314,6 @@
       "example": "**Math Class Responses:** Two students get a C on a math test.\n**Student A (fixed mindset):** \"I'm just not a math person. I don't have the math gene. There's no point trying harder—I'll never be good at this.\" She stops studying, avoids asking questions (which would expose her lack of ability), and her grades decline further. The fixed mindset becomes self-fulfilling—believing ability is unchangeable causes her to stop doing things that would change it.\n**Student B (growth mindset):** \"I didn't understand these concepts yet. Let me figure out what I got wrong, ask for help, and practice more.\" She sees the C as information about where to focus effort, not as a verdict on her mathematical identity. She improves through additional work, and her grades rise. Her belief that ability is developable causes behaviors that develop ability.",
       "tryThis": "Notice your self-talk about abilities. Do you say \"I'm not good at X\" (fixed) or \"I'm not good at X yet\" (growth)? That one word—\"yet\"—changes everything. When facing a setback, ask: \"What can I learn from this?\" rather than \"What does this say about my ability?\" Praise effort and strategy, not inherent talent, both in yourself and others.",
       "related": [
-        "Deliberate Practice",
-        "Compound Learning",
         "Self-Fulfilling Prophecy",
         "Learned Helplessness"
       ]
@@ -361,20 +344,6 @@
       "related": [
         "Spacing Effect",
         "Desirable Difficulties"
-      ]
-    },
-    {
-      "id": "people-deliberate-practice",
-      "title": "Deliberate Practice",
-      "category": "People",
-      "principle": "Focused, effortful practice with immediate feedback on specific aspects of performance leads to skill improvement, as opposed to naive practice (repetition without focus) or just doing the activity.",
-      "coreConcept": "Not all practice creates improvement. Deliberate practice, studied by Anders Ericsson, requires: (1) focused attention on specific weaknesses, (2) immediate feedback on performance, (3) repetition with refinement, (4) expert guidance. Simply doing an activity repeatedly (naive practice) doesn't produce expertise—you plateau. Deliberate practice is hard, often unenjoyable, and focuses on mistakes rather than comfortable competence. But it's the only path to expert performance in cognitively demanding fields.",
-      "example": "**Weekend Tennis Player vs. Professional:** Two people both play tennis for 10,000 hours over many years. One remains an average recreational player. The other becomes professional-level.\nThe difference: The recreational player engages in naive practice—playing casual matches, hitting balls comfortably, reinforcing existing habits (good and bad). It's fun, social practice without focused improvement work.\nThe professional engages in deliberate practice—working with coaches who identify specific weaknesses (backhand slice, return positioning), drilling those weaknesses repeatedly with immediate feedback, analyzing video of mistakes, practicing uncomfortable techniques until mastered, then targeting new weaknesses. Every session has specific goals and expert feedback. This is less fun than casual play but produces dramatic skill increases.",
-      "tryThis": "Choose a skill you want to improve. Don't just \"practice\"—practice deliberately. Identify your weakest specific sub-skill. Design exercises targeting only that. Get expert feedback (coach, mentor, video review). Work at the edge of your ability (uncomfortable but not impossible). Track specific metrics. Repeat until you master that sub-skill, then target the next weakness. This focused, feedback-driven approach produces progress where naive repetition doesn't.",
-      "related": [
-        "10,000 Hour Rule",
-        "Feedback Loops",
-        "Zone of Proximal Development"
       ]
     },
     {
@@ -471,8 +440,7 @@
         "Fundamental Attribution Error",
         "Occam's Razor",
         "Assumption of Positive Intent",
-        "Cognitive Empathy",
-        "Confirmation Bias"
+        "Cognitive Empathy"
       ]
     },
     {
@@ -501,8 +469,7 @@
       "tryThis": "Think about someone you really like or admire. Now honestly assess: have you assumed they're also good at things you've never actually seen them do? Are you giving them benefit of the doubt you wouldn't extend to others? Conversely, think of someone you dislike—are you assuming negative traits without evidence? Practice evaluating specific traits independently rather than letting overall impression create halos or horns.",
       "related": [
         "Attractiveness Bias",
-        "Horn Effect",
-        "Confirmation Bias"
+        "Horn Effect"
       ]
     },
     {
@@ -516,7 +483,6 @@
       "related": [
         "Familiarity Bias",
         "Status Quo Bias",
-        "Frequency Illusion",
         "Availability Heuristic"
       ]
     },
@@ -874,8 +840,7 @@
       "example": "**Simple Bet:** Someone offers: \"Flip a coin. Heads, you win $200. Tails, you lose $50. Play or pass?\"\nMost people focus on loss aversion—\"I could lose $50!\" But expected value analysis: 50% chance × $200 win = $100. Plus 50% chance × -$50 loss = -$25. Total EV = $100 - $25 = +$75. Every time you take this bet, you expect to gain $75 on average. You'll lose half the time, but the wins more than compensate. If you played 100 times, you'd expect roughly +$7,500.\nPassing the bet has an EV of $0. Taking it has an EV of +$75. The rational choice is clear—take the bet. Yet many people's loss aversion leads them to refuse, giving up positive expected value to avoid the possibility of loss.",
       "tryThis": "For an important decision with uncertain outcomes, list possible scenarios, assign rough probabilities, and estimate value (positive or negative) for each. Multiply probability × value for each scenario and sum them. This gives you expected value. Compare EVs of different options. This doesn't guarantee any particular outcome but points toward better long-term decisions.",
       "related": [
-        "Probabilistic Thinking",
-        "Long-Term Thinking"
+        "Probabilistic Thinking"
       ]
     },
     {
@@ -980,7 +945,6 @@
       "example": "**Bezos Leaving Wall Street:** In 1994, Jeff Bezos had a stable, lucrative job on Wall Street. He wanted to start an Internet bookstore (Amazon), but it meant leaving security for uncertainty.\nHe used the regret minimization framework: \"When I'm 80, will I regret leaving Wall Street? Probably not. Will I regret not trying to participate in the Internet boom? Absolutely.\" From his 80-year-old perspective, the career risk seemed small but the missed opportunity to attempt something meaningful seemed huge. This framework helped him choose the uncertain path with higher long-term significance over the comfortable path with lower. Amazon became one of the world's most valuable companies. The framework doesn't guarantee success, but it clarifies which risks are worth taking.",
       "tryThis": "Face a difficult decision? Project forward to age 80 and look back. What will you regret—taking the risk or playing it safe? Usually, regrets center on things not attempted rather than things that failed. Which path aligns with your values and desired life story? This exercise often makes the choice clear by filtering out short-term fears that seem irrelevant from a long-term perspective.",
       "related": [
-        "Long-Term Thinking",
         "Opportunity Cost",
         "Optionality",
         "Satisficing vs. Maximizing",
@@ -1158,7 +1122,8 @@
       "tryThis": "Face a stuck problem? Use provocation: make a deliberately absurd statement about it (e.g., \"customers should pay us to take our product\"), then ask \"what's interesting about this?\" It forces your brain out of established patterns. Try random entry: pick a random word from the dictionary and force connections to your problem. These lateral techniques can unlock insights that logical analysis misses by breaking your mental ruts.",
       "related": [
         "Beginner's Mind",
-        "Constraint Relaxation"
+        "Constraint Relaxation",
+        "Guilford's Alternate Uses"
       ]
     },
     {
@@ -1352,21 +1317,6 @@
       ]
     },
     {
-      "id": "product-technology-adoption-lifecycle",
-      "title": "Technology Adoption Lifecycle",
-      "category": "Product",
-      "principle": "New technologies are adopted by different customer segments in a predictable sequence: innovators, early adopters, early majority, late majority, and laggards.",
-      "coreConcept": "Everett Rogers' Diffusion of Innovations describes how innovations spread through populations. Innovators (2.5%) embrace new technology for its own sake. Early Adopters (13.5%) see strategic advantages. Early Majority (34%) adopt once benefits are proven. Late Majority (34%) adopt when necessary. Laggards (16%) resist change until forced. Each segment has different motivations, risk tolerances, and communication channels. Successful companies tailor strategies to each segment, recognizing that tactics effective for innovators fail with the majority.",
-      "example": "Smartphone adoption followed this lifecycle. Innovators bought expensive early smartphones (Palm Pilot, BlackBerry) despite limitations. Early Adopters embraced the iPhone (2007), seeing transformative potential. The Early Majority adopted smartphones (2010-2014) as apps proliferated and networks improved. The Late Majority bought smartphones when affordable models emerged and smartphones became necessary for basic communication. Laggards still use flip phones in 2024. Each transition required different strategies—technological novelty attracted innovators, but price reduction, simplicity, and social proof drove majority adoption.",
-      "tryThis": "Plot three technologies you've adopted (smartphones, electric vehicles, AI tools) on the adoption curve. Where do you typically fall? How might your natural position create blind spots?",
-      "related": [
-        "Crossing the Chasm",
-        "Network Effects",
-        "First-Mover Advantage",
-        "Market Segmentation"
-      ]
-    },
-    {
       "id": "product-crossing-the-chasm",
       "title": "Crossing the Chasm",
       "category": "Product",
@@ -1375,7 +1325,6 @@
       "example": "Salesforce crossed the chasm by initially targeting small and medium sales teams—a focused segment where competitors were weak and cloud benefits were obvious. Rather than simultaneously pursuing all CRM opportunities, Salesforce dominated SMB sales, built references and partnerships, then expanded to enterprise accounts and additional functions (marketing, service). This beachhead strategy provided the proof points and ecosystem support that pragmatic buyers required. Competitors like Siebel, despite superior technology, failed to take cloud seriously until Salesforce had established a dominant position. The focused approach turned early success into mainstream dominance.",
       "tryThis": "If you're launching a product, identify the specific segment you'll dominate first. Can you win 40%+ share of this beachhead before expanding? If not, narrow further.",
       "related": [
-        "Technology Adoption Lifecycle",
         "Market Segmentation",
         "Product-Market Fit"
       ]
@@ -1576,7 +1525,6 @@
       "tryThis": "Before your next negotiation, decide your ambitious-but-defensible anchor. Go first if possible, and anchor more extremely than feels comfortable. Observe how it shifts the discussion.",
       "related": [
         "Cognitive Biases",
-        "Reference Points",
         "First-Mover Advantage"
       ]
     },
@@ -1717,16 +1665,6 @@
         "Path Dependence",
         "Incremental Innovation"
       ]
-    },
-    {
-      "id": "product-minimum-viable-product",
-      "title": "Minimum Viable Product",
-      "category": "Product",
-      "principle": "The version of a product with just enough features to attract early adopters and validate core assumptions with minimum effort.",
-      "coreConcept": "MVP, from Lean Startup methodology, balances learning speed against development cost. Rather than building complete products based on assumptions, MVP tests hypotheses with real customers using minimal implementations. The goal isn't creating a working product—it's learning whether the core value proposition resonates. MVPs might be landing pages, concierge services, or wizard-of-oz prototypes. Success means validated learning, not revenue. MVP thinking prevents over-building features nobody wants and enables pivots before major resource commitment.",
-      "example": "Dropbox's MVP was a video, not a product. Building full synchronization technology would have required months and been wasted if customers didn't want it. Instead, Drew Houston created a 3-minute demo video showing Dropbox working perfectly. He posted it to Hacker News and measured interest—overnight, beta signups increased from 5,000 to 75,000. This validated that people understood and wanted the concept before writing full code. The video cost a day of work versus months of development, providing the same essential learning: demand existed for simple file synchronization. This is MVP thinking—test assumptions at minimum cost before scaling investment.",
-      "tryThis": "What assumption underlies your current project? What's the cheapest, fastest way to test whether that assumption is true with real customers? That's your MVP.",
-      "related": []
     },
     {
       "id": "product-product-market-fit",
@@ -1985,8 +1923,7 @@
       "example": "Printer manufacturers perfected razor and blades. HP, Canon, and Epson sell printers cheaply—often below cost—then profit from ink cartridges with 50-70% margins. Proprietary cartridge designs and chips prevent third-party ink usage. A $50 printer might generate $300 in ink revenue over its lifetime. This explains why printers are almost given away—the business model is selling ink, not hardware. When companies try to sell third-party ink, printer manufacturers update firmware to block compatibility. The model is so profitable that companies sacrifice hardware margins entirely to build installed base for consumable sales.",
       "tryThis": "Could you reframe your product as razor and blades? What consumable, recurring, or complementary products could you add to your durable goods to create ongoing revenue?",
       "related": [
-        "Lock-In",
-        "Customer Lifetime Value"
+        "Lock-In"
       ]
     },
     {
@@ -2027,9 +1964,7 @@
       "coreConcept": "Veblen goods violate normal demand curves—raising prices increases demand rather than decreasing it. This occurs when conspicuous consumption creates value—the high price itself makes the product desirable by signaling wealth and taste. Examples include luxury fashion, premium wines, and exotic cars where price communicates social status. Lowering prices would reduce appeal by eliminating exclusivity. Veblen effects explain luxury brand pricing strategies and why discounting premium brands damages them permanently. The phenomenon depends on visibility—products must be recognizable to signal status effectively.",
       "example": "Hermès Birkin bags exemplify Veblen goods. Priced $10,000-$300,000+, these handbags see demand increase with price because cost signals exclusivity and wealth. Hermès maintains scarcity through limited production and waitlists, enhancing desirability. The high price is the point—it filters buyers to ultra-wealthy consumers seeking status symbols. If Hermès lowered prices to increase volume, demand would collapse because the exclusivity signal would disappear. The economics seem backwards—reducing supply and raising prices increases revenue—but makes perfect sense when the product's value derives from signaling rather than utility. Luxury positioning requires pricing that creates artificial scarcity.",
       "tryThis": "Could your product support luxury positioning where higher prices increase desirability? Does it have status signaling potential? Or would price increases simply reduce demand?",
-      "related": [
-        "Status Signaling"
-      ]
+      "related": []
     },
     {
       "id": "product-giffen-goods",
@@ -2078,18 +2013,6 @@
       "tryThis": "Complete: \"We're the only _____ that _____.\" If you can't succinctly answer, your positioning is unclear. What single concept should you own in customers' minds?",
       "related": [
         "Market Segmentation"
-      ]
-    },
-    {
-      "id": "product-customer-lifetime-value",
-      "title": "Customer Lifetime Value",
-      "category": "Product",
-      "principle": "The total profit a customer generates over their entire relationship with your company, determining how much to spend acquiring them.",
-      "coreConcept": "Customer Lifetime Value (CLV or LTV) equals: (average purchase value) × (purchase frequency) × (customer lifespan) minus (acquisition and service costs). CLV determines profitable customer acquisition cost (CAC)—the LTV:CAC ratio should exceed 3:1 for healthy businesses. High CLV justifies expensive acquisition because long-term returns exceed initial costs. Strategies to increase CLV include: increasing purchase value, frequency, lifespan (retention), or decreasing service costs. Understanding CLV prevents short-term thinking—accepting acquisition losses makes sense when CLV justifies it. Many startups fail by ignoring unit economics and CLV.",
-      "example": "Amazon Prime exemplifies CLV optimization. Prime members pay $139 annually but the service reportedly loses money per member considering shipping costs. However, Prime members spend $1,400 annually versus $600 for non-Prime members, and retention is 93% after the first year. The CLV calculation justifies the acquisition investment: losing $50 annually on Prime benefits while gaining $800 in incremental purchases creates positive CLV. Amazon optimizes for lifetime value rather than transaction profit, accepting short-term losses for long-term gains. This CLV focus justifies behavior that seems economically irrational without understanding the full customer relationship value.",
-      "tryThis": "Calculate your CLV: average customer spends how much, how often, for how many years? Multiply these and subtract acquisition/service costs. Compare to your actual CAC—is the ratio healthy?",
-      "related": [
-        "Long-Term Thinking"
       ]
     },
     {
@@ -2179,19 +2102,6 @@
       ]
     },
     {
-      "id": "process-long-term-thinking",
-      "title": "Long-Term Thinking",
-      "category": "Process",
-      "principle": "Prioritizing decisions that maximize outcomes over longer time horizons.",
-      "coreConcept": "Long-term thinking favors compounding benefits and avoids short-term optimizations that damage future options. It often requires patience and counter-cyclical choices.",
-      "example": "A company invests in infrastructure and documentation. Delivery slows for a quarter, but the next year speeds up and defects drop. The long-term payoff outweighs the short-term cost.",
-      "tryThis": "Add a long-term metric such as retention or maintenance cost. Evaluate decisions on a 12-24 month horizon.",
-      "related": [
-        "Expected Value",
-        "Regret Minimization Framework"
-      ]
-    },
-    {
       "id": "process-asymmetric-risk",
       "title": "Asymmetric Risk",
       "category": "Process",
@@ -2238,8 +2148,7 @@
       "example": "A smoker values health but keeps smoking. To reduce discomfort, they downplay risks and cite a relative who lived long. The belief shifts to justify the behavior.",
       "tryThis": "Write down the conflicting beliefs and actions. Decide whether to change behavior or update the belief with evidence.",
       "related": [
-        "Commitment and Consistency",
-        "Confirmation Bias"
+        "Commitment and Consistency"
       ]
     },
     {
@@ -2461,18 +2370,6 @@
       ]
     },
     {
-      "id": "people-10-000-hour-rule",
-      "title": "10,000 Hour Rule",
-      "category": "People",
-      "principle": "Mastery comes from many hours of deliberate practice, not talent alone.",
-      "coreConcept": "Skill grows through focused repetition with feedback; hours are a proxy for quality practice, not a guarantee. The rule highlights long time horizons.",
-      "example": "A designer improves faster by reviewing every project with a mentor rather than just logging hours. This illustrates 10,000 Hour Rule: Mastery comes from many hours of deliberate practice, not talent alone. In practice, Skill grows through focused repetition with feedback; hours are a proxy for quality practice, not a guarantee.",
-      "tryThis": "Track weekly deliberate practice time and add feedback loops. Notice when this pattern shows up today and pause before acting.",
-      "related": [
-        "Deliberate Practice"
-      ]
-    },
-    {
       "id": "people-actor-observer-bias",
       "title": "Actor-Observer Bias",
       "category": "People",
@@ -2590,18 +2487,6 @@
       "tryThis": "Schedule a pre-commitment checkpoint to revisit assumptions. Notice when this pattern shows up today and pause before acting.",
       "related": [
         "Sunk Cost Fallacy"
-      ]
-    },
-    {
-      "id": "people-compound-learning",
-      "title": "Compound Learning",
-      "category": "People",
-      "principle": "Learning compounds when knowledge builds on itself over time.",
-      "coreConcept": "Small learning habits accumulate and accelerate future learning. Connected knowledge makes each new insight more valuable.",
-      "example": "A daily reading habit compounds into better decisions and faster problem solving. This illustrates Compound Learning: Learning compounds when knowledge builds on itself over time. In practice, Small learning habits accumulate and accelerate future learning.",
-      "tryThis": "Keep a weekly learning log and review it to reinforce connections. Notice when this pattern shows up today and pause before acting.",
-      "related": [
-        "Growth Mindset vs. Fixed Mindset"
       ]
     },
     {
@@ -2757,18 +2642,6 @@
         "Spacing Effect"
       ],
       "id": "people-forgetting-curve"
-    },
-    {
-      "title": "Frequency Illusion",
-      "category": "People",
-      "principle": "Once you notice something, it seems to appear everywhere.",
-      "coreConcept": "Selective attention and recency bias create the illusion of increased frequency.",
-      "example": "You learn a new word and then hear it repeatedly. This illustrates Frequency Illusion: Once you notice something, it seems to appear everywhere. In practice, Selective attention and recency bias create the illusion of increased frequency.",
-      "tryThis": "Track actual counts before concluding a trend. Notice when this pattern shows up today and pause before acting.",
-      "related": [
-        "Mere Exposure Effect"
-      ],
-      "id": "people-frequency-illusion"
     },
     {
       "title": "Hedonic Framing",
@@ -3047,18 +2920,6 @@
       "id": "people-recency-bias"
     },
     {
-      "title": "Reference Points",
-      "category": "People",
-      "principle": "Judgments depend on the baseline used for comparison.",
-      "coreConcept": "Gains and losses are evaluated relative to a reference point, not absolute value.",
-      "example": "A discount feels large because of the original price anchor. This illustrates Reference Points: Judgments depend on the baseline used for comparison. In practice, Gains and losses are evaluated relative to a reference point, not absolute value.",
-      "tryThis": "Identify the anchor influencing your decision. Notice when this pattern shows up today and pause before acting.",
-      "related": [
-        "Anchoring in Negotiation"
-      ],
-      "id": "people-reference-points"
-    },
-    {
       "title": "Regret Aversion",
       "category": "People",
       "principle": "People avoid choices that might cause future regret.",
@@ -3069,18 +2930,6 @@
         "Status Quo Bias"
       ],
       "id": "people-regret-aversion"
-    },
-    {
-      "title": "Risk Aversion",
-      "category": "People",
-      "principle": "People prefer sure gains over risky gains of equal value.",
-      "coreConcept": "Losses feel larger than gains, leading to cautious choices.",
-      "example": "A team chooses a safe project over a higher upside bet. This illustrates Risk Aversion: People prefer sure gains over risky gains of equal value. In practice, Losses feel larger than gains, leading to cautious choices.",
-      "tryThis": "Quantify expected value before rejecting risk. Notice when this pattern shows up today and pause before acting.",
-      "related": [
-        "Loss Aversion"
-      ],
-      "id": "people-risk-aversion"
     },
     {
       "title": "Salience Bias",
@@ -3215,18 +3064,6 @@
       "id": "people-state-dependent-memory"
     },
     {
-      "title": "Status Signaling",
-      "category": "People",
-      "principle": "People use visible cues to signal social status.",
-      "coreConcept": "Signals communicate wealth, taste, or affiliation, shaping social perception.",
-      "example": "Buying a luxury watch to convey prestige. This illustrates Status Signaling: People use visible cues to signal social status. In practice, Signals communicate wealth, taste, or affiliation, shaping social perception.",
-      "tryThis": "Decide whether a purchase is utility-driven or signal-driven. Notice when this pattern shows up today and pause before acting.",
-      "related": [
-        "Veblen Goods"
-      ],
-      "id": "people-status-signaling"
-    },
-    {
       "title": "Streetlight Effect",
       "category": "People",
       "principle": "We look for answers where it is easiest, not where it is correct.",
@@ -3293,9 +3130,7 @@
       "coreConcept": "Optimal growth happens with challenges that are hard but achievable.",
       "example": "A coach assigns drills slightly above a learner’s current level. This illustrates Zone of Proximal Development: Learning is fastest just beyond current ability with support. In practice, Optimal growth happens with challenges that are hard but achievable.",
       "tryThis": "Choose tasks that feel just out of reach and get feedback. Notice when this pattern shows up today and pause before acting.",
-      "related": [
-        "Deliberate Practice"
-      ],
+      "related": [],
       "id": "people-zone-of-proximal-development"
     },
     {
@@ -3595,6 +3430,33 @@
         "Jidoka (Automation/Quality at the source)",
         "Poka-yoke",
         "Theory of Constraints"
+      ]
+    },
+    {
+      "id": "people-steel-manning-vs-straw-manning",
+      "title": "Steel-manning vs. Straw-manning",
+      "category": "People",
+      "principle": "Steel-manning means restating an opposing view in its strongest credible form before critiquing it; straw-manning means weakening the view so it is easier to attack.",
+      "coreConcept": "Most arguments fail because people debate caricatures, not real positions. Straw-manning may feel persuasive in the moment, but it destroys trust and leads to bad decisions because key constraints and evidence are ignored. Steel-manning forces intellectual honesty: you identify the best version of the other side, acknowledge what is valid, then test where disagreement still remains. This improves judgment quality, reduces tribal conflict, and helps teams converge on better decisions faster.",
+      "example": "**Product Strategy Debate:** A team argues whether to add a complex enterprise feature. A straw-man response is: \"You just want to bloat the product for one noisy customer.\" A steel-man response is: \"Your strongest point is that enterprise accounts could raise retention and ACV if this feature closes procurement blockers. The risk is implementation complexity and slower roadmap velocity for core users.\" Once framed this way, the team can run a focused test (pilot with two accounts, scoped build, clear success metrics) instead of arguing past each other.",
+      "tryThis": "Before disagreeing in your next meeting, state the other person's argument so clearly that they say, \"Yes, that's exactly my point.\" Then ask: \"What evidence would change either of our minds?\" Only after that, present your critique. This single step usually turns debate into joint problem-solving.",
+      "related": [
+        "Socratic Method",
+        "Inversion"
+      ]
+    },
+    {
+      "id": "people-hyperbolic-discounting",
+      "title": "Hyperbolic Discounting",
+      "category": "People",
+      "principle": "People overweight immediate rewards versus future rewards, causing short-term choices that conflict with long-term goals.",
+      "coreConcept": "Hyperbolic discounting describes a non-linear decline in perceived value as rewards move into the future. The discount rate is steep for near-term delays (today vs tomorrow) and flatter for longer horizons (one year vs one year plus a day). That shape creates time inconsistency: what you prefer in advance often changes when temptation becomes immediate. This explains procrastination, under-saving, impulsive spending, and difficulty sustaining habits. Practical fixes include commitment devices, pre-commitment, defaults, and reducing immediate friction for the long-term choice.",
+      "example": "**Savings vs Spending:** In January, someone plans to save an upcoming bonus for emergency funds. When payday arrives, immediate purchases feel more rewarding than a distant safety buffer, so most of the bonus is spent. A month later they regret it and reset the same goal. The issue is not lack of intelligence; it is hyperbolic discounting making immediate rewards feel disproportionately valuable compared with delayed benefits.",
+      "tryThis": "Pick one repeated short-term temptation (e.g., impulse purchases). Add a 24-hour delay rule and automate the long-term alternative (e.g., auto-transfer a fixed amount to savings first). If you still want the purchase after 24 hours, buy it. This reduces immediate-bias decisions and increases follow-through on long-term goals.",
+      "related": [
+        "Loss Aversion",
+        "Incentives",
+        "Opportunity Cost"
       ]
     }
   ]
