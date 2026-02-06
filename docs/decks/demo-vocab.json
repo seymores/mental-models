@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "deckId": "demo-vocab",
+  "type": "demo-vocab",
+  "generatedAt": "2026-02-04T00:00:00.000Z",
+  "count": 3,
+  "cards": [
+    {
+      "id": "vocab-serendipity",
+      "type": "vocab",
+      "category": "Vocabulary",
+      "front": {
+        "title": "Serendipity",
+        "subtitle": "noun",
+        "badge": "Vocab"
+      },
+      "back": {
+        "title": "Serendipity",
+        "sections": [
+          {
+            "label": "Definition",
+            "body": "The occurrence of events by chance in a happy or beneficial way."
+          },
+          {
+            "label": "Example",
+            "body": "Their meeting was pure **serendipity** after years of working in the same city."
+          }
+        ],
+        "tags": [
+          {
+            "label": "Fortuity"
+          },
+          {
+            "label": "Luck"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vocab-eloquent",
+      "type": "vocab",
+      "category": "Vocabulary",
+      "front": {
+        "title": "Eloquent",
+        "subtitle": "adjective",
+        "badge": "Vocab"
+      },
+      "back": {
+        "title": "Eloquent",
+        "sections": [
+          {
+            "label": "Definition",
+            "body": "Fluent or persuasive in speaking or writing."
+          },
+          {
+            "label": "Example",
+            "body": "Her **eloquent** presentation convinced the team to change course."
+          }
+        ],
+        "tags": [
+          {
+            "label": "Articulate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vocab-ambivalent",
+      "type": "vocab",
+      "category": "Vocabulary",
+      "front": {
+        "title": "Ambivalent",
+        "subtitle": "adjective",
+        "badge": "Vocab"
+      },
+      "back": {
+        "title": "Ambivalent",
+        "sections": [
+          {
+            "label": "Definition",
+            "body": "Having mixed feelings or contradictory ideas about something or someone."
+          },
+          {
+            "label": "Example",
+            "body": "He was **ambivalent** about the offer because it meant relocating."
+          }
+        ],
+        "tags": [
+          {
+            "label": "Conflicted"
+          }
+        ]
+      }
+    }
+  ]
+}

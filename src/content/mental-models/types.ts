@@ -9,7 +9,7 @@ export type MentalModel = {
   related: string[]
 }
 
-export type ModelPayload = {
+export type MentalModelPayload = {
   models: MentalModel[]
   generatedAt?: string
   count?: number

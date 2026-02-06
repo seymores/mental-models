@@ -1,6 +1,6 @@
 import type { MentalModel } from './types'
 
-export const shuffle = <T,>(items: T[]) => {
+const shuffle = <T,>(items: T[]) => {
   const copy = [...items]
   for (let i = copy.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -9,7 +9,7 @@ export const shuffle = <T,>(items: T[]) => {
   return copy
 }
 
-export const buildDeck = (items: MentalModel[]) => {
+export const buildMentalModelDeck = (items: MentalModel[]) => {
   const buckets = new Map<string, MentalModel[]>()
   for (const model of items) {
     const key = model.category || 'Other'

@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-02-04T00:00:00.000Z",
+  "decks": [
+    {
+      "id": "mental-models",
+      "title": "Mental Models",
+      "type": "mental-models",
+      "file": "decks/mental-models.json",
+      "default": true
+    },
+    {
+      "id": "demo-vocab",
+      "title": "Demo Vocabulary",
+      "type": "demo-vocab",
+      "file": "decks/demo-vocab.json"
+    }
+  ]
+}

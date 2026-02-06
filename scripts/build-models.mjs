@@ -3,7 +3,8 @@ import path from "node:path";
 
 const inputRoot =
   process.env.MMODEL_INPUT_DIR || "/Users/ping/Projects/mental-models-data";
-const outputPath = path.resolve("public/models-latest.json");
+const outputPath = path.resolve("public/decks/mental-models.json");
+const manifestPath = path.resolve("public/decks.json");
 
 const sources = [
   { file: "people.md", category: "People" },
@@ -117,6 +118,9 @@ const parseSource = (source) => {
 
 const allModels = sources.flatMap(parseSource);
 const payload = {
+  schemaVersion: 1,
+  deckId: "mental-models",
+  type: "mental-models",
   generatedAt: new Date().toISOString(),
   count: allModels.length,
   models: allModels,
@@ -124,4 +128,29 @@ const payload = {
 
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 fs.writeFileSync(outputPath, JSON.stringify(payload, null, 2));
+
+const defaultManifest = { decks: [] };
+const manifest = fs.existsSync(manifestPath)
+  ? JSON.parse(fs.readFileSync(manifestPath, "utf8"))
+  : defaultManifest;
+const existing = (manifest.decks || []).find((deck) => deck.id === "mental-models");
+const hasOtherDefault = (manifest.decks || []).some(
+  (deck) => deck.default && deck.id !== "mental-models"
+);
+const entry = {
+  id: "mental-models",
+  title: "Mental Models",
+  type: "mental-models",
+  file: "decks/mental-models.json",
+  default: existing?.default ?? !hasOtherDefault,
+};
+const nextDecks = [entry, ...(manifest.decks || []).filter((deck) => deck.id !== "mental-models")];
+const nextManifest = {
+  ...manifest,
+  generatedAt: payload.generatedAt,
+  decks: nextDecks,
+};
+
+fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
+fs.writeFileSync(manifestPath, JSON.stringify(nextManifest, null, 2));
 console.log(`Wrote ${allModels.length} models to ${outputPath}`);

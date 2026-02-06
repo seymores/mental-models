@@ -1,246 +1,253 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { CSSProperties } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
-import type { MentalModel, ModelPayload } from './lib/types'
-import { buildDeck } from './lib/deck'
-import { getHeroIcons, getIconUrl, hashString } from './lib/icons'
-import { renderRichText, shouldTightenHeadline } from './lib/text'
-import { categoryBadgeIcons, categoryThemes } from './lib/themes'
+import { DeckStack } from './core/DeckStack'
+import type { Card, DeckDescriptor, DeckLoadResult, DeckManifest } from './core/types'
+import { useDeck } from './core/useDeck'
+import { useFlip } from './core/useFlip'
+import { useSwipe } from './core/useSwipe'
+import { getCardRenderer, getDeckAdapter } from './content/registry.tsx'
 
-type DragState = {
-  x: number
-  y: number
-  isDragging: boolean
-  isDismissing: boolean
+const fetchManifest = async (options?: { bypassCache?: boolean }) => {
+  const baseUrl = new URL('./', window.location.href)
+  const path = options?.bypassCache
+    ? `decks.json?ts=${Date.now()}`
+    : 'decks.json'
+  const url = new URL(path, baseUrl).toString()
+  const response = await fetch(url, {
+    cache: options?.bypassCache ? 'no-store' : 'default',
+  })
+  if (!response.ok) {
+    throw new Error('Unable to load deck manifest')
+  }
+  return (await response.json()) as DeckManifest
 }
 
-type CardFacesProps = {
-  model: MentalModel
-  theme: (typeof categoryThemes)[string]
-  titleIndex: Map<string, number>
-  onJump: (name: string) => void
-  isFacedown: boolean
+const fetchDeckFile = async (file: string, options?: { bypassCache?: boolean }) => {
+  const baseUrl = new URL('./', window.location.href)
+  const path = options?.bypassCache
+    ? `${file}${file.includes('?') ? '&' : '?'}ts=${Date.now()}`
+    : file
+  const url = new URL(path, baseUrl).toString()
+  const response = await fetch(url, {
+    cache: options?.bypassCache ? 'no-store' : 'default',
+  })
+  if (!response.ok) {
+    throw new Error('Unable to load deck data')
+  }
+  return (await response.json()) as unknown
 }
 
-const CardFaces = memo(function CardFaces({
-  model,
-  theme,
-  titleIndex,
-  onJump,
-  isFacedown,
-}: CardFacesProps) {
-  const badgeIcons =
-    categoryBadgeIcons[model.category] ?? categoryBadgeIcons.People
-  const badgeIcon = badgeIcons[hashString(model.id) % badgeIcons.length]
-  const badgeIconUrl = getIconUrl(badgeIcon, '#f7f7f4')
-  const badgeIconBackUrl = getIconUrl(badgeIcon, '#f7f7f4')
-  const heroIcons = getHeroIcons(model)
-  const heroColor = `color-mix(in srgb, ${theme.muted} 60%, ${theme.background} 40%)`
+const pickDeck = (manifest: DeckManifest) => {
+  const decks = manifest.decks ?? []
+  if (!decks.length) return null
+  return decks.find((deck) => deck.default) ?? decks[0]
+}
 
-  return (
-    <>
-      <div className="card__face card__face--front" aria-hidden={isFacedown}>
-        <div className="card__content card__content--front">
-          <div className="card__meta">
-            <span className="card__badge">
-              <img
-                className="card__badge-icon"
-                src={badgeIconUrl}
-                alt=""
-                aria-hidden="true"
-                width={14}
-                height={14}
-                loading="lazy"
-                onError={(event) => {
-                  event.currentTarget.style.display = 'none'
-                }}
-              />
-              {model.category}
-            </span>
-          </div>
-          <h2
-            className={`card__headline${
-              shouldTightenHeadline(model.title) ? ' card__headline--tight' : ''
-            }`}
-          >
-            {model.title}
-          </h2>
-          {heroIcons.length > 0 && (
-            <div className="card__hero-icons" aria-hidden="true">
-              {heroIcons.map((icon, index) => (
-                <img
-                  key={`${model.id}-hero-${index}`}
-                  className="card__hero-icon"
-                  src={getIconUrl(icon, heroColor)}
-                  alt=""
-                  aria-hidden="true"
-                  width={34}
-                  height={34}
-                  loading="lazy"
-                  onError={(event) => {
-                    event.currentTarget.style.display = 'none'
-                  }}
-                />
-              ))}
-            </div>
-          )}
-          <p className="card__subtitle">{model.principle}</p>
-        </div>
-      </div>
-      <div className="card__face card__face--back" aria-hidden={!isFacedown}>
-        <div className="card__back-body">
-          <div className="card__back-header">
-            <span className="card__badge card__badge--back">
-              <img
-                className="card__badge-icon card__badge-icon--back"
-                src={badgeIconBackUrl}
-                alt=""
-                aria-hidden="true"
-                width={14}
-                height={14}
-                loading="lazy"
-                onError={(event) => {
-                  event.currentTarget.style.display = 'none'
-                }}
-              />
-              {model.category}
-            </span>
-            <h2 className="card__back-title">{model.title}</h2>
-          </div>
-          {model.principle && (
-            <section className="card__section card__section--principle">
-              <h3>Principle</h3>
-              {renderRichText(model.principle)}
-            </section>
-          )}
-          {model.coreConcept && (
-            <section className="card__section">
-              <h3>Core Concept</h3>
-              {renderRichText(model.coreConcept)}
-            </section>
-          )}
-          {model.example && (
-            <section className="card__section">
-              <h3>One Best Example</h3>
-              {renderRichText(model.example)}
-            </section>
-          )}
-          {model.tryThis && (
-            <section className="card__section card__section--try">
-              <h3>Try This Now</h3>
-              {renderRichText(model.tryThis)}
-            </section>
-          )}
-          {model.related.length > 0 && (
-            <section className="card__section">
-              <h3>Related Models</h3>
-              <div className="card__tags">
-                {model.related.map((item) =>
-                  titleIndex.has(item.toLowerCase()) ? (
-                    <button
-                      key={item}
-                      type="button"
-                      className="card__tag card__tag--link"
-                      onPointerDown={(event) => event.stopPropagation()}
-                      onClick={() => onJump(item)}
-                    >
-                      {item}
-                    </button>
-                  ) : (
-                    <span key={item} className="card__tag">
-                      {item}
-                    </span>
-                  )
-                )}
-              </div>
-            </section>
-          )}
-        </div>
-      </div>
-    </>
-  )
-})
-
-const swipeConfig = {
-  distance: 180,
-  tapThreshold: 8,
-  dismissDistance: 120,
-  flingDistance: 60,
-  flingVelocity: 0.6,
+const loadDeck = async (
+  descriptor: DeckDescriptor,
+  options?: { bypassCache?: boolean }
+): Promise<DeckLoadResult> => {
+  const payload = await fetchDeckFile(descriptor.file, options)
+  const adapter = getDeckAdapter(descriptor.type)
+  if (!adapter) {
+    throw new Error(`Unsupported deck type: ${descriptor.type}`)
+  }
+  return adapter.load(payload)
 }
 
 function App() {
-  const [models, setModels] = useState<MentalModel[]>([])
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isFlipped, setIsFlipped] = useState(false)
-  const [dragState, setDragState] = useState<DragState>({
-    x: 0,
-    y: 0,
-    isDragging: false,
-    isDismissing: false,
-  })
+  const [deck, setDeck] = useState<DeckDescriptor | null>(null)
+  const [cards, setCards] = useState<Card[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [lastGeneratedAt, setLastGeneratedAt] = useState<string | null>(null)
   const [updateAvailable, setUpdateAvailable] = useState(false)
   const [isJumping, setIsJumping] = useState(false)
-  const [flipAnimation, setFlipAnimation] = useState<'flip-to-back' | 'flip-to-front' | null>(null)
-  const [isFlipping, setIsFlipping] = useState(false)
-  const dragFrame = useRef<number | null>(null)
-  const dragRef = useRef<DragState>({
-    x: 0,
-    y: 0,
-    isDragging: false,
-    isDismissing: false,
-  })
-  const supportsPointer =
-    typeof window !== 'undefined' &&
-    'PointerEvent' in window &&
-    navigator.maxTouchPoints === 0 &&
-    !('ontouchstart' in window)
+  const [isIndexOpen, setIsIndexOpen] = useState(false)
+  const [indexQuery, setIndexQuery] = useState('')
 
-  const { x: dragX, isDragging, isDismissing } = dragState
-
-  const pointerState = useRef({
-    active: false,
-    startX: 0,
-    startY: 0,
-    startTime: 0,
-    hasMoved: false,
-    pointerId: 0,
-    inputType: 'pointer' as 'pointer' | 'touch',
-  })
-  const pendingUpdate = useRef<ModelPayload | null>(null)
+  const pendingUpdate = useRef<DeckLoadResult | null>(null)
   const updateTimeout = useRef<number | null>(null)
   const jumpTimeout = useRef<number | null>(null)
-  const navigationTimeout = useRef<number | null>(null)
 
-  const fetchModels = async (options?: { bypassCache?: boolean }) => {
-    const baseUrl = new URL('./', window.location.href)
-    const path = options?.bypassCache
-      ? `models-latest.json?ts=${Date.now()}`
-      : 'models-latest.json'
-    const url = new URL(path, baseUrl).toString()
-    const response = await fetch(url, {
-      cache: options?.bypassCache ? 'no-store' : 'default',
+  const { isFlipped, flipAnimation, isFlipping, triggerFlip, resetFlip, handleFlipEnd } =
+    useFlip()
+
+  const total = cards.length
+
+  const {
+    dragState,
+    dragX,
+    leftProgress,
+    rightProgress,
+    resetDrag,
+    dismissCard,
+    rewindCard,
+    handlers,
+  } = useSwipe({
+    total,
+    isFlipped,
+    isFlipping,
+    isJumping,
+    onFlip: triggerFlip,
+    onDismissComplete: () => {
+      resetFlip()
+      advanceCard()
+    },
+    onRewindComplete: () => {
+      resetFlip()
+      retreatCard()
+    },
+  })
+
+  const {
+    currentIndex,
+    currentIndexSafe,
+    setCurrentIndex,
+    showPrev,
+    stack,
+    progressRatio,
+    advanceCard,
+    retreatCard,
+    jumpToId,
+  } = useDeck({
+    cards,
+    setCards,
+    dragX,
+    leftProgress,
+    rightProgress,
+  })
+
+  const supportsPointer = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      'PointerEvent' in window &&
+      navigator.maxTouchPoints === 0 &&
+      !('ontouchstart' in window),
+    []
+  )
+
+  const indexEntries = useMemo(
+    () =>
+      cards
+        .map((card) => {
+          const renderer = getCardRenderer(card.type)
+          const theme = renderer.getTheme(card)
+          return {
+            id: card.id,
+            title: card.front.title,
+            badge: card.category ?? card.front.badge ?? 'Card',
+            badgeColor: theme.background,
+          }
+        })
+        .sort((left, right) =>
+          left.title.localeCompare(right.title, undefined, {
+            sensitivity: 'base',
+          })
+        ),
+    [cards]
+  )
+
+  const filteredIndexEntries = useMemo(() => {
+    const query = indexQuery.trim().toLowerCase()
+    if (!query) return indexEntries
+    return indexEntries.filter((entry) => {
+      return (
+        entry.title.toLowerCase().includes(query) ||
+        entry.badge.toLowerCase().includes(query)
+      )
     })
-    if (!response.ok) {
-      throw new Error('Unable to load deck data')
+  }, [indexEntries, indexQuery])
+
+  const currentCardId = total ? cards[currentIndexSafe]?.id : null
+
+  const jumpToCard = useCallback(
+    (id: string) => {
+      if (!total) return
+      resetFlip()
+      resetDrag()
+      jumpToId(id)
+      if (jumpTimeout.current) {
+        window.clearTimeout(jumpTimeout.current)
+      }
+      setIsJumping(false)
+      window.requestAnimationFrame(() => {
+        setIsJumping(true)
+        jumpTimeout.current = window.setTimeout(() => {
+          setIsJumping(false)
+        }, 380)
+      })
+    },
+    [jumpToId, resetDrag, resetFlip, total]
+  )
+
+  const openIndex = useCallback(() => {
+    if (!total) return
+    setIndexQuery('')
+    setIsIndexOpen(true)
+  }, [total])
+
+  const closeIndex = useCallback(() => {
+    setIndexQuery('')
+    setIsIndexOpen(false)
+  }, [])
+
+  const jumpFromIndex = useCallback(
+    (id: string) => {
+      setIndexQuery('')
+      setIsIndexOpen(false)
+      jumpToCard(id)
+    },
+    [jumpToCard]
+  )
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (isIndexOpen || !total || isFlipping) return
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      triggerFlip()
     }
-    return (await response.json()) as ModelPayload
+    if (isFlipped) return
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      dismissCard()
+    }
+    if (event.key === 'ArrowRight') {
+      event.preventDefault()
+      rewindCard()
+    }
   }
+
+  useEffect(() => {
+    if (!isIndexOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      setIsIndexOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [isIndexOpen])
 
   useEffect(() => {
     let isMounted = true
     const load = async () => {
       try {
-        const payload = await fetchModels()
+        const manifest = await fetchManifest()
         if (!isMounted) return
-        const deck = buildDeck(payload.models ?? [])
-        setModels(deck)
+        const selected = pickDeck(manifest)
+        if (!selected) {
+          throw new Error('No decks found')
+        }
+        setDeck(selected)
+        const result = await loadDeck(selected)
+        if (!isMounted) return
+        setCards(result.cards)
         setCurrentIndex(0)
-        setLastGeneratedAt(payload.generatedAt ?? null)
+        setLastGeneratedAt(result.generatedAt ?? null)
         setError(null)
         setIsLoading(false)
       } catch (err) {
@@ -253,23 +260,23 @@ function App() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [setCurrentIndex])
 
   useEffect(() => {
-    if (isLoading || error) return
+    if (isLoading || error || !deck) return
     const updateDelayMs = 10 * 60 * 1000
 
     const checkForUpdates = async () => {
-      if (!lastGeneratedAt || updateAvailable) return
+      if (!lastGeneratedAt || updateAvailable || !deck) return
 
       try {
-        const payload = await fetchModels({ bypassCache: true })
-        if (!payload.generatedAt) return
-        const latest = Date.parse(payload.generatedAt)
+        const result = await loadDeck(deck, { bypassCache: true })
+        if (!result.generatedAt) return
+        const latest = Date.parse(result.generatedAt)
         const current = Date.parse(lastGeneratedAt)
         if (Number.isNaN(latest) || Number.isNaN(current)) return
         if (latest > current) {
-          pendingUpdate.current = payload
+          pendingUpdate.current = result
           setUpdateAvailable(true)
         }
       } catch {
@@ -310,440 +317,67 @@ function App() {
       clearScheduled()
       document.removeEventListener('visibilitychange', handleVisibility)
     }
-  }, [error, isLoading, lastGeneratedAt, updateAvailable])
+  }, [deck, error, isLoading, lastGeneratedAt, updateAvailable])
 
   useEffect(() => {
     return () => {
       if (jumpTimeout.current) {
         window.clearTimeout(jumpTimeout.current)
       }
-      if (navigationTimeout.current) {
-        window.clearTimeout(navigationTimeout.current)
-      }
-      if (dragFrame.current !== null) {
-        window.cancelAnimationFrame(dragFrame.current)
-      }
     }
   }, [])
 
-  const total = models.length
-  const currentIndexSafe = total ? currentIndex % total : 0
-  const getNextIndex = () => (total ? (currentIndexSafe + 1) % total : 0)
-  const getLaterIndex = () => (total ? (currentIndexSafe + 2) % total : 0)
-  const getFarIndex = () => (total ? (currentIndexSafe + 3) % total : 0)
-  const getPrevIndex = () =>
-    total ? (currentIndexSafe - 1 + total) % total : 0
-  const showPrev = dragX > 0
-  const titleIndex = useMemo(() => {
-    const map = new Map<string, number>()
-    models.forEach((model, index) => {
-      const key = model.title.toLowerCase()
-      if (!map.has(key)) map.set(key, index)
-    })
-    return map
-  }, [models])
-  const stack = useMemo(() => {
-    if (!total) return []
-    const depth = Math.min(total, 4)
-    const candidates: {
-      index: number
-      role: 'current' | 'prev' | 'next' | 'later' | 'far'
-    }[] = [
-      { index: currentIndexSafe, role: 'current' },
-      { index: showPrev ? getPrevIndex() : getNextIndex(), role: showPrev ? 'prev' : 'next' },
-      { index: showPrev ? getNextIndex() : getLaterIndex(), role: showPrev ? 'next' : 'later' },
-      { index: showPrev ? getLaterIndex() : getFarIndex(), role: showPrev ? 'later' : 'far' },
-    ]
-
-    const items: {
-      model: MentalModel
-      role: 'current' | 'prev' | 'next' | 'later' | 'far'
-    }[] = []
-    const seen = new Set<number>()
-
-    for (const candidate of candidates) {
-      if (items.length >= depth) break
-      if (seen.has(candidate.index)) continue
-      seen.add(candidate.index)
-      items.push({ model: models[candidate.index], role: candidate.role })
-    }
-
-    return items
-  }, [currentIndexSafe, showPrev, models, total])
-
-  const leftProgress = Math.min(Math.max(-dragX, 0) / swipeConfig.distance, 1)
-  const rightProgress = Math.min(Math.max(dragX, 0) / swipeConfig.distance, 1)
-  const progressRatio = useMemo(() => {
-    if (!total) return 0
-    if (total <= 1) return 1
-    const step = 1 / (total - 1)
-    const direction = dragX < 0 ? 1 : dragX > 0 ? -1 : 0
-    const dragOffset = direction > 0 ? leftProgress : rightProgress
-    const next = currentIndexSafe * step + direction * dragOffset * step
-    return Math.min(1, Math.max(0, next))
-  }, [currentIndexSafe, dragX, leftProgress, rightProgress, total])
-
-  const syncDrag = useCallback((next: DragState) => {
-    dragRef.current = next
-    if (dragFrame.current !== null) {
-      window.cancelAnimationFrame(dragFrame.current)
-      dragFrame.current = null
-    }
-    setDragState(next)
-  }, [])
-
-  const updateDrag = useCallback((next: Partial<DragState>) => {
-    dragRef.current = { ...dragRef.current, ...next }
-    if (dragFrame.current !== null) return
-    dragFrame.current = window.requestAnimationFrame(() => {
-      dragFrame.current = null
-      setDragState({ ...dragRef.current })
-    })
-  }, [])
-
-  const resetDrag = useCallback(() => {
-    syncDrag({
-      x: 0,
-      y: 0,
-      isDragging: false,
-      isDismissing: false,
-    })
-    pointerState.current = {
-      active: false,
-      startX: 0,
-      startY: 0,
-      startTime: 0,
-      hasMoved: false,
-      pointerId: 0,
-      inputType: 'pointer',
-    }
-  }, [syncDrag])
-
-  const resetFlip = useCallback(() => {
-    setIsFlipped(false)
-    setFlipAnimation(null)
-    setIsFlipping(false)
-  }, [])
-
-  const jumpToModel = useCallback((name: string) => {
-    const index = titleIndex.get(name.toLowerCase())
-    if (index === undefined || !total) return
-    if (index === currentIndexSafe) return
-    resetFlip()
-    resetDrag()
-    const target = models[index]
-    const order = Array.from({ length: total }, (_, offset) => {
-      return models[(currentIndexSafe + offset) % total]
-    })
-    const nextOrder = [target, ...order.filter((model) => model.id !== target.id)]
-    const rotated = Array.from({ length: total }, (_, position) => {
-      return nextOrder[(position - currentIndexSafe + total) % total]
-    })
-
-    setModels(rotated)
-    setCurrentIndex(currentIndexSafe)
-    if (jumpTimeout.current) {
-      window.clearTimeout(jumpTimeout.current)
-    }
-    setIsJumping(false)
-    window.requestAnimationFrame(() => {
-      setIsJumping(true)
-      jumpTimeout.current = window.setTimeout(() => {
-        setIsJumping(false)
-      }, 380)
-    })
-  }, [currentIndexSafe, models, resetDrag, resetFlip, titleIndex, total])
+  useEffect(() => {
+    if (total > 0) return
+    setIsIndexOpen(false)
+  }, [total])
 
   const applyUpdate = async () => {
-    if (isRefreshing) return
+    if (isRefreshing || !deck) return
     setIsRefreshing(true)
     try {
-      const payload = pendingUpdate.current ?? (await fetchModels({ bypassCache: true }))
-      const deck = buildDeck(payload.models ?? [])
-      setModels(deck)
+      const result =
+        pendingUpdate.current ?? (await loadDeck(deck, { bypassCache: true }))
+      setCards(result.cards)
       setCurrentIndex(0)
       resetFlip()
-      setLastGeneratedAt(payload.generatedAt ?? null)
+      resetDrag()
+      setLastGeneratedAt(result.generatedAt ?? null)
       setUpdateAvailable(false)
       pendingUpdate.current = null
       setError(null)
-    } catch (err) {
-      // Keep the current deck; allow retry on the next check.
+    } catch {
       setUpdateAvailable(true)
     } finally {
       setIsRefreshing(false)
     }
   }
 
-  const advanceCard = () => {
-    resetFlip()
-    resetDrag()
-    const nextIndex = getNextIndex()
-    setCurrentIndex(nextIndex)
-  }
-
-  const retreatCard = () => {
-    resetFlip()
-    resetDrag()
-    setCurrentIndex(getPrevIndex())
-  }
-
-  const triggerFlip = () => {
-    if (isFlipping) return
-    const next = !isFlipped
-    setIsFlipped(next)
-    setFlipAnimation(next ? 'flip-to-back' : 'flip-to-front')
-    setIsFlipping(true)
-  }
-
-  const handleFlipEnd = () => {
-    if (!isFlipping) return
-    setIsFlipping(false)
-    setFlipAnimation(null)
-  }
-
-  const dismissCard = () => {
-    if (!total || isDismissing) return
-    syncDrag({
-      x: -window.innerWidth * 1.1,
-      y: dragRef.current.y * 0.2,
-      isDragging: false,
-      isDismissing: true,
-    })
-    if (navigationTimeout.current) {
-      window.clearTimeout(navigationTimeout.current)
-    }
-    navigationTimeout.current = window.setTimeout(() => {
-      navigationTimeout.current = null
-      advanceCard()
-    }, 300)
-  }
-
-  const rewindCard = () => {
-    if (!total || isDismissing) return
-    syncDrag({
-      x: window.innerWidth * 1.1,
-      y: dragRef.current.y * 0.2,
-      isDragging: false,
-      isDismissing: true,
-    })
-    if (navigationTimeout.current) {
-      window.clearTimeout(navigationTimeout.current)
-    }
-    navigationTimeout.current = window.setTimeout(() => {
-      navigationTimeout.current = null
-      retreatCard()
-    }, 300)
-  }
-
-  const beginInteraction = (
-    clientX: number,
-    clientY: number,
-    pointerId: number,
-    inputType: 'pointer' | 'touch'
-  ) => {
-    pointerState.current = {
-      active: true,
-      startX: clientX,
-      startY: clientY,
-      startTime: performance.now(),
-      hasMoved: false,
-      pointerId,
-      inputType,
-    }
-  }
-
-  const finalizeInteraction = (dx: number, dy: number, elapsed: number) => {
-    const state = pointerState.current
-    if (isFlipping) {
-      resetDrag()
-      return
-    }
-    const velocity = dx / Math.max(elapsed, 1)
-
-    if (isFlipped) {
-      if (
-        !state.hasMoved ||
-        (Math.abs(dx) < swipeConfig.tapThreshold &&
-          Math.abs(dy) < swipeConfig.tapThreshold)
-      ) {
-        triggerFlip()
-      }
-      resetDrag()
-      return
-    }
-
-    if (
-      !state.hasMoved ||
-      (Math.abs(dx) < swipeConfig.tapThreshold &&
-        Math.abs(dy) < swipeConfig.tapThreshold)
-    ) {
-      triggerFlip()
-      resetDrag()
-      return
-    }
-
-    const shouldDismiss =
-      dx < -swipeConfig.dismissDistance ||
-      (dx < -swipeConfig.flingDistance && velocity < -swipeConfig.flingVelocity)
-    const shouldRewind =
-      dx > swipeConfig.dismissDistance ||
-      (dx > swipeConfig.flingDistance && velocity > swipeConfig.flingVelocity)
-    if (shouldDismiss) {
-      pointerState.current.active = false
-      dismissCard()
-    } else if (shouldRewind) {
-      pointerState.current.active = false
-      rewindCard()
-    } else {
-      resetDrag()
-    }
-  }
-
-  const getTrackedTouch = (event: React.TouchEvent) => {
-    const touchId = pointerState.current.pointerId
-    const list = event.touches.length ? event.touches : event.changedTouches
-    for (let index = 0; index < list.length; index += 1) {
-      const touch = list.item(index)
-      if (touch && touch.identifier === touchId) return touch
-    }
-    return list.length ? list.item(0) : null
-  }
-
-  const handlePointerDown = (event: React.PointerEvent) => {
-    if (isDismissing || isJumping || isFlipping || !total) return
-    if (event.pointerType === 'mouse' && event.button !== 0) return
-    if (pointerState.current.active) return
-    if (event.pointerType === 'touch' && event.cancelable) {
-      event.preventDefault()
-    }
-    beginInteraction(event.clientX, event.clientY, event.pointerId, 'pointer')
-  }
-
-  const handlePointerMove = (event: React.PointerEvent) => {
-    const state = pointerState.current
-    if (!state.active || state.inputType !== 'pointer' || isDismissing) return
-
-    const dx = event.clientX - state.startX
-    const dy = event.clientY - state.startY
-
-    if (!state.hasMoved) {
-      if (Math.abs(dx) < swipeConfig.tapThreshold && Math.abs(dy) < swipeConfig.tapThreshold) return
-      state.hasMoved = true
-    }
-    if (isFlipped) {
-      return
-    }
-
-    const isHorizontal = Math.abs(dx) >= Math.abs(dy)
-    if (!isDragging && !isHorizontal) return
-    if (!isDragging) {
-      updateDrag({ isDragging: true })
-    }
-    if (event.pointerType === 'touch' && event.cancelable) {
-      event.preventDefault()
-    }
-    updateDrag({
-      x: dx,
-      y: 0,
-    })
-  }
-
-  const handlePointerUp = (event: React.PointerEvent) => {
-    const state = pointerState.current
-    if (!state.active || state.inputType !== 'pointer' || isDismissing) return
-
-    const dx = event.clientX - state.startX
-    const dy = event.clientY - state.startY
-    const elapsed = performance.now() - state.startTime
-    finalizeInteraction(dx, dy, elapsed)
-  }
-
-  const handlePointerCancel = () => {
-    if (!pointerState.current.active || pointerState.current.inputType !== 'pointer' || isDismissing) return
-    resetDrag()
-  }
-
-  const handleTouchStart = (event: React.TouchEvent) => {
-    if (isDismissing || isJumping || isFlipping || !total) return
-    if (pointerState.current.active) return
-    const touch = event.touches.item(0)
-    if (!touch) return
-    beginInteraction(touch.clientX, touch.clientY, touch.identifier, 'touch')
-  }
-
-  const handleTouchMove = (event: React.TouchEvent) => {
-    const state = pointerState.current
-    if (!state.active || state.inputType !== 'touch' || isDismissing) return
-    const touch = getTrackedTouch(event)
-    if (!touch) return
-
-    const dx = touch.clientX - state.startX
-    const dy = touch.clientY - state.startY
-
-    if (!state.hasMoved) {
-      if (Math.abs(dx) < swipeConfig.tapThreshold && Math.abs(dy) < swipeConfig.tapThreshold) return
-      state.hasMoved = true
-    }
-    if (isFlipped) {
-      return
-    }
-
-    const isHorizontal = Math.abs(dx) >= Math.abs(dy)
-    if (!isDragging && !isHorizontal) return
-    if (!isDragging) {
-      updateDrag({ isDragging: true })
-    }
-    if (event.cancelable) {
-      event.preventDefault()
-    }
-    updateDrag({
-      x: dx,
-      y: 0,
-    })
-  }
-
-  const handleTouchEnd = (event: React.TouchEvent) => {
-    const state = pointerState.current
-    if (!state.active || state.inputType !== 'touch' || isDismissing) return
-    const touch = getTrackedTouch(event)
-    if (!touch) {
-      resetDrag()
-      return
-    }
-    const dx = touch.clientX - state.startX
-    const dy = touch.clientY - state.startY
-    const elapsed = performance.now() - state.startTime
-    finalizeInteraction(dx, dy, elapsed)
-  }
-
-  const handleTouchCancel = () => {
-    if (!pointerState.current.active || pointerState.current.inputType !== 'touch' || isDismissing) return
-    resetDrag()
-  }
-
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (!total || isFlipping) return
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
-      triggerFlip()
-    }
-    if (isFlipped) return
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault()
-      dismissCard()
-    }
-    if (event.key === 'ArrowRight') {
-      event.preventDefault()
-      rewindCard()
-    }
-  }
-
   return (
     <div className="app">
       <header className="app__header">
-        <div>
-          <h1 className="app__title">Mental Models</h1>
+        <div className="app__header-brand">
+          <button
+            className="app__index-button"
+            type="button"
+            onClick={openIndex}
+            disabled={!total || isLoading || Boolean(error)}
+            aria-label="Open model index"
+            aria-haspopup="dialog"
+            aria-expanded={isIndexOpen}
+            aria-controls="deck-index-card"
+            title="Model index"
+          >
+            <svg
+              className="app__index-icon"
+              viewBox="0 0 24 24"
+              role="img"
+              aria-hidden="true"
+            >
+              <path d="M5 7h14M5 12h14M5 17h14" />
+            </svg>
+          </button>
+          <h1 className="app__title">{deck?.title ?? 'Cards'}</h1>
         </div>
         <div className="app__meta">
           {total ? `${currentIndex + 1} / ${total}` : 'Loading'}
@@ -753,179 +387,115 @@ function App() {
       <main className="deck" aria-live="polite">
         {isLoading && <div className="deck__message">Loading deck…</div>}
         {error && !isLoading && (
-          <div className="deck__message deck__message--error">
-            {error}
-          </div>
+          <div className="deck__message deck__message--error">{error}</div>
         )}
         {!isLoading && !error && total === 0 && (
-          <div className="deck__message">No models found.</div>
+          <div className="deck__message">No cards found.</div>
         )}
         {!isLoading && !error && total > 0 && (
-          <div
-            className={`deck__stack${isDragging ? ' is-dragging' : ''}${
-              isDismissing ? ' is-dismissing' : ''
-            }`}
-          >
-            <div className="deck__shadow" aria-hidden="true" />
-            {stack.map((item, position) => {
-              const { model, role } = item
-              const isTop = role === 'current'
-              const theme =
-                categoryThemes[model.category] || categoryThemes.People
-              const depthStep = 14
-              const depthOffset = position * depthStep
-              const depthScale = 1 - position * 0.035
-              const isAdvancing = isDragging || isDismissing
-              const liftProgress = isAdvancing
-                ? showPrev
-                  ? rightProgress
-                  : leftProgress
-                : 0
-              const direction = showPrev ? 1 : -1
-              const dragProgress = liftProgress
-              const exitLift = 24
-              const exitRotate = 14
-              const exitScale = 0.02
-              const incomingTilt = 4
-              const incomingLift = 10
-              const stackLift = 8
-              const themeVars: CSSProperties = {
-                '--card-bg': theme.background,
-                '--card-ink': theme.ink,
-                '--card-muted': theme.muted,
-                '--card-line': theme.line,
-                '--card-badge-bg': theme.badgeBg,
-                '--card-tag-bg': theme.tagBg,
-                '--card-border': theme.background,
-                '--card-theme': theme.background,
-              } as CSSProperties
-
-              let translateX = 0
-              let translateY = depthOffset
-              let rotateZ = 0
-              let scale = depthScale
-              let opacity = 1
-
-              if (isTop) {
-                if (showPrev) {
-                  translateX = 0
-                  translateY = depthOffset + rightProgress * 18
-                  rotateZ = 0
-                  scale = 1 - rightProgress * 0.015
-                  opacity = 1
-                } else {
-                  translateX = dragX
-                  translateY = depthOffset - exitLift * dragProgress
-                  rotateZ = direction * exitRotate * dragProgress
-                  scale = 1 + exitScale * dragProgress
-                  opacity = 1
-                }
-              } else if (role === 'prev' && showPrev) {
-                const reveal = rightProgress
-                const liftArc = reveal * (1 - reveal) * 2
-                translateX = -80 * (1 - reveal)
-                translateY = depthOffset * (1 - reveal) - incomingLift * liftArc
-                scale = depthScale + (1 - depthScale) * reveal
-                rotateZ = -incomingTilt * (1 - reveal)
-                opacity = reveal
-              } else if (role === 'next' && !showPrev) {
-                const reveal = leftProgress
-                const liftArc = reveal * (1 - reveal) * 2
-                translateX = 0
-                translateY =
-                  depthOffset * (1 - reveal) - incomingLift * liftArc
-                scale = depthScale + (1 - depthScale) * reveal
-                rotateZ = -direction * incomingTilt * (1 - reveal)
-                opacity = 1
-              } else if (role === 'next') {
-                translateY = depthOffset + (showPrev ? 1 : -1) * stackLift * liftProgress
-              } else if (role === 'later') {
-                translateY = depthOffset + (showPrev ? 1 : -1) * stackLift * 0.6 * liftProgress
-              } else if (role === 'far') {
-                translateY = depthOffset + (showPrev ? 1 : -1) * stackLift * 0.4 * liftProgress
-                if (!showPrev) {
-                  const baseOpacity = 0.22
-                  opacity = baseOpacity + (1 - baseOpacity) * liftProgress
-                } else {
-                  opacity = liftProgress
-                }
-              }
-
-              return (
-                <article
-                  key={model.id}
-                  className={`deck__card${
-                    isTop ? ' deck__card--top' : ''
-                  }${isDragging && isTop ? ' is-dragging' : ''}`}
-                  style={{
-                    ...themeVars,
-                    zIndex:
-                      showPrev && role === 'prev'
-                        ? stack.length + 1
-                        : stack.length - position,
-                    opacity,
-                    transform: `translate3d(${translateX}px, ${translateY}px, 0) rotate(${rotateZ}deg) scale(${scale})`,
-                  }}
-                >
-                  <div
-                    className={`deck__card-shell${
-                      isTop && isJumping ? ' is-jumping' : ''
-                    }`}
-                  >
-                    <div
-                      className={`card${isTop && isFlipped ? ' facedown' : ''}`}
-                      style={
-                        isTop && flipAnimation
-                          ? { animationName: flipAnimation }
-                          : undefined
-                      }
-                      onAnimationEnd={isTop && isFlipping ? handleFlipEnd : undefined}
-                      {...(isTop
-                        ? supportsPointer
-                          ? {
-                              onPointerDown: handlePointerDown,
-                              onPointerMove: handlePointerMove,
-                              onPointerUp: handlePointerUp,
-                              onPointerCancel: handlePointerCancel,
-                            }
-                          : {
-                              onTouchStart: handleTouchStart,
-                              onTouchMove: handleTouchMove,
-                              onTouchEnd: handleTouchEnd,
-                              onTouchCancel: handleTouchCancel,
-                            }
-                        : {})}
-                      onKeyDown={isTop ? handleKeyDown : undefined}
-                      role={isTop ? 'button' : undefined}
-                      tabIndex={isTop ? 0 : -1}
-                      aria-pressed={isTop ? isFlipped : undefined}
-                      aria-label={
-                        isTop
-                          ? `Card: ${model.title}. Tap to flip. Swipe left or right to navigate.`
-                          : undefined
-                      }
-                    >
-                      <div className="card__inner">
-                        <CardFaces
-                          model={model}
-                          theme={theme}
-                          titleIndex={titleIndex}
-                          onJump={jumpToModel}
-                          isFacedown={isTop ? isFlipped : false}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              )
-            })}
-          </div>
+          <DeckStack
+            stack={stack}
+            dragState={dragState}
+            dragX={dragX}
+            leftProgress={leftProgress}
+            rightProgress={rightProgress}
+            showPrev={showPrev}
+            isFlipped={isFlipped}
+            isFlipping={isFlipping}
+            flipAnimation={flipAnimation}
+            isJumping={isJumping}
+            supportsPointer={supportsPointer}
+            onFlipEnd={handleFlipEnd}
+            onKeyDown={handleKeyDown}
+            onJump={jumpToCard}
+            getRenderer={getCardRenderer}
+            handlers={handlers}
+          />
         )}
       </main>
 
+      {isIndexOpen && (
+        <section
+          className="index-card-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="deck-index-title"
+          id="deck-index-card"
+          onClick={closeIndex}
+        >
+          <article
+            className="index-card"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <header className="index-card__header">
+              <div className="index-card__heading">
+                <h2 id="deck-index-title" className="index-card__title">
+                  {indexEntries.length} Mental Models
+                </h2>
+              </div>
+              <button
+                className="index-card__close"
+                type="button"
+                onClick={closeIndex}
+              >
+                Close
+              </button>
+            </header>
+            <div className="index-card__search-row">
+              <input
+                className="index-card__search"
+                type="search"
+                value={indexQuery}
+                onChange={(event) => setIndexQuery(event.target.value)}
+                placeholder="Search models or categories"
+                aria-label="Search mental models"
+                autoComplete="off"
+              />
+            </div>
+            <div className="index-card__list">
+              {filteredIndexEntries.length === 0 ? (
+                <p className="index-card__empty">No matching models found.</p>
+              ) : (
+                filteredIndexEntries.map((entry, index) => (
+                  <button
+                    key={entry.id}
+                    type="button"
+                    className={`index-card__item${
+                      currentCardId === entry.id ? ' is-current' : ''
+                    }`}
+                    style={
+                      {
+                        '--index-accent': entry.badgeColor,
+                      } as React.CSSProperties
+                    }
+                    onClick={() => jumpFromIndex(entry.id)}
+                  >
+                    <span className="index-card__item-order">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span className="index-card__item-title">{entry.title}</span>
+                    <span
+                      className="card__badge card__badge--back index-card__item-badge"
+                      style={
+                        {
+                          '--card-border': entry.badgeColor,
+                          '--card-theme': entry.badgeColor,
+                        } as React.CSSProperties
+                      }
+                    >
+                      {entry.badge}
+                    </span>
+                  </button>
+                ))
+              )}
+            </div>
+          </article>
+        </section>
+      )}
+
       <footer className="app__footer">
         {updateAvailable ? (
-          <div className="app__update" role="status">
+          <div className="app__update app__panel" role="status">
             <span>New cards available.</span>
             <button
               className="app__update-button"
@@ -937,9 +507,9 @@ function App() {
             </button>
           </div>
         ) : (
-          <>
-            <span>Tap to flip.</span>
-            <span>Swipe to navigate.</span>
+          <div className="app__nav app__panel" role="note" aria-label="Navigation help">
+            <span className="app__hint">Tap card to flip</span>
+            <span className="app__hint">Swipe left or right to navigate</span>
             <div
               className="app__progress app__progress--bottom"
               role="progressbar"
@@ -953,7 +523,7 @@ function App() {
                 style={{ width: `${progressRatio * 100}%` }}
               />
             </div>
-          </>
+          </div>
         )}
       </footer>
     </div>

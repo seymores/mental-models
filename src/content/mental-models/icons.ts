@@ -1,5 +1,3 @@
-import type { MentalModel } from './types'
-
 const normalizeKey = (value: string) =>
   value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
 
@@ -136,7 +134,6 @@ const heroIconOverrides = new Map<string, string[]>([
   [normalizeKey('Via Negativa'), ['circle-minus', 'filter', 'circle-check']],
   [normalizeKey('Winner-Take-All Markets'), ['trophy', 'dollar', 'circle-plus']],
   [normalizeKey('ZOPA'), ['link', 'dollar', 'circle-info']],
-  [normalizeKey('Zero-Sum vs. Positive-Sum'), ['circle-minus', 'circle-plus', 'dollar']],
 ])
 
 const heroIconPools = {
@@ -291,16 +288,16 @@ const pickIcons = (pool: string[], count: number, seed: string) => {
   return picks
 }
 
-export const getHeroIcons = (model: MentalModel) => {
-  const key = normalizeKey(model.title)
+export const getHeroIcons = (title: string, category?: string) => {
+  const key = normalizeKey(title)
   const override = heroIconOverrides.get(key)
   if (override) return override
-  const title = model.title.toLowerCase()
+  const lowerTitle = title.toLowerCase()
   for (const theme of heroIconThemes) {
-    if (theme.match.test(title)) {
+    if (theme.match.test(lowerTitle)) {
       return pickIcons(theme.icons, 3, key)
     }
   }
-  const pool = categoryHeroPools[model.category] ?? heroIconPools.fallback
-  return pickIcons(pool, 3, key)
+  const pool = category ? categoryHeroPools[category] : undefined
+  return pickIcons(pool ?? heroIconPools.fallback, 3, key)
 }
