@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-02-01T11:12:18.076670Z",
-  "count": 276,
+  "count": 270,
   "models": [
     {
       "id": "people-confirmation-bias",
@@ -236,7 +236,6 @@
       "tryThis": "Notice when you feel scarcity (tight deadline, low bank balance, overbooked schedule). Do you make worse decisions in those moments? Do you tunnel on immediate concerns, neglecting long-term planning? Design systems that reduce scarcity's cognitive load: automate bills, build time buffers, create emergency funds. This frees bandwidth for better decisions.",
       "related": [
         "Mental Bandwidth",
-        "Cognitive Load",
         "Ego Depletion",
         "Opportunity Cost"
       ]
@@ -358,8 +357,7 @@
       "tryThis": "When practicing anything—math problems, language vocabulary, tennis serves—deliberately mix up the types rather than completing all of one type first. If studying history, mix different time periods rather than mastering one era then moving to the next. This will feel less smooth and productive, but trust the research—interleaving produces better long-term learning and transfer.",
       "related": [
         "Spacing Effect",
-        "Desirable Difficulties",
-        "Varied Practice"
+        "Desirable Difficulties"
       ]
     },
     {
@@ -385,8 +383,7 @@
       "example": "**Chess Expertise:** Researchers showed chess positions to grandmasters and novices for 5 seconds, then asked them to recreate the board.\nWhen shown actual game positions, grandmasters recreated nearly perfectly while novices remembered only a few pieces. Does this mean grandmasters have superhuman memory? No—when shown random piece arrangements (not real game positions), grandmasters performed no better than novices.\nThe difference: grandmasters had chunked common patterns. They didn't remember \"pawn on e4, bishop on c4, knight on f3, etc.\" as 20+ separate pieces—they recognized familiar patterns like \"Sicilian Defense opening\" as a single chunk. Their expertise let them see meaningful patterns where novices saw individual pieces. Same working memory capacity, but chunking multiplied effective memory by treating patterns as single items.",
       "tryThis": "When learning something complex, identify the repeating patterns and create chunks. In programming, recognize common code patterns. In music, practice common chord progressions as units. In any domain, learn the building blocks, then chunk them into larger patterns. Notice how experts in your field seem to process information faster—they're likely chunking information you're seeing as separate elements.",
       "related": [
-        "Automaticity",
-        "Cognitive Load"
+        "Automaticity"
       ]
     },
     {
@@ -398,7 +395,6 @@
       "example": "**Emergency Room Doctor Shifts:** A study tracked ER doctors' decisions throughout 12-hour shifts. Early in shifts, doctors properly prescribed antibiotics only for bacterial infections (not viral infections where they're ineffective).\nAs shifts progressed and bandwidth depleted, prescribing patterns changed. Doctors increasingly prescribed unnecessary antibiotics for viral infections. They weren't forgetting their training—they were experiencing bandwidth depletion. The correct decision (carefully diagnosing bacterial vs. viral, explaining to anxious patients why antibiotics won't help) requires mental resources. The easy decision (just prescribe antibiotics to satisfy the patient) requires less bandwidth. As the day drained mental resources, doctors took cognitive shortcuts. Same people, same knowledge, different decisions based on available bandwidth.",
       "tryThis": "Notice when your mental bandwidth is depleted—end of day, after many decisions, during stress. Do you make worse choices, snap at people, or eat junk food then? Protect your bandwidth by: scheduling important decisions when fresh, automating routine choices (what to eat, what to wear), taking breaks to recharge, and reducing cognitive load. Save bandwidth for decisions that matter by eliminating decisions that don't.",
       "related": [
-        "Cognitive Load",
         "Decision Fatigue",
         "Ego Depletion",
         "Scarcity Mindset",
@@ -457,7 +453,6 @@
       "example": "**Traditional vs. Microservices Architecture:** A company with organizational silos—separate teams for frontend, backend, database, and security—typically produces monolithic applications with clear separation between those layers. Each team builds their piece with well-defined interfaces matching organizational boundaries.\nWhen the same company tries to adopt microservices architecture (services organized by business function rather than technical layer), they struggle. Microservices require cross-functional teams (each team handling frontend, backend, and database for their business domain). But the organization is structured around technical layers, not business domains. The architecture they can actually build mirrors their communication structure (layered), not the architecture they want (service-based). To successfully adopt microservices, they'd need to reorganize teams first—Conway's Law in action.",
       "tryThis": "Draw your organization's communication structure. Now look at your product or system architecture. Do they mirror each other? If you want to change your architecture, do you need to reorganize teams first? Understanding Conway's Law helps you recognize why certain technical changes require organizational changes, and why your system looks the way it does.",
       "related": [
-        "Coordination Cost",
         "Brooks's Law"
       ]
     },
@@ -504,8 +499,7 @@
       "related": [
         "Attractiveness Bias",
         "Horn Effect",
-        "Confirmation Bias",
-        "Stereotyping"
+        "Confirmation Bias"
       ]
     },
     {
@@ -533,7 +527,6 @@
       "tryThis": "When judging whether someone fits a category (a good leader, a successful entrepreneur, a trustworthy person), ask: Am I evaluating probability or similarity to my stereotype? What are the actual base rates? Could I be confusing \"fits my mental image\" with \"is likely to be true\"? Practice separating representativeness from actual probability.",
       "related": [
         "Base Rate Fallacy",
-        "Stereotyping",
         "Conjunction Fallacy",
         "Availability Heuristic"
       ]
@@ -668,7 +661,6 @@
         "IKEA Effect",
         "Endowment Effect",
         "In-Group Bias",
-        "Technical Debt",
         "Opportunity Cost"
       ]
     },
@@ -1124,9 +1116,7 @@
       "example": "**Software Project Rescue:** A software project is three months behind schedule. Management's instinct: add more programmers to catch up. They double the team from 5 to 10 people.\nResult: The project falls further behind. Why? The original 5 developers must now: onboard 5 new people (teaching codebase, architecture, conventions), answer endless questions, review new members' work, integrate new code, and manage 10×9/2 = 45 communication channels instead of 5×4/2 = 10. They're spending more time coordinating than coding. Meanwhile, new members make mistakes because they don't understand the system, creating bugs the original team must fix. Three months later, the project is six months behind instead of three. Brooks's Law: adding people made it worse, not better.",
       "tryThis": "When a project is late, resist the instinct to add more people. Instead: reduce scope, parallelize work where truly independent, remove blockers, or accept the delay. Only add people if there's truly parallel work available and enough time to absorb onboarding costs. Recognize that scaling teams has coordination costs that can outweigh productivity gains, especially in the short term.",
       "related": [
-        "Coordination Cost",
-        "Diminishing Returns",
-        "Technical Debt"
+        "Diminishing Returns"
       ]
     },
     {
@@ -1194,20 +1184,6 @@
         "Second-Order Thinking",
         "Unintended Consequences",
         "Epistemic Humility"
-      ]
-    },
-    {
-      "id": "process-cognitive-load",
-      "title": "Cognitive Load",
-      "category": "Process",
-      "principle": "The total amount of mental effort being used in working memory; when cognitive load exceeds capacity, performance deteriorates and learning becomes difficult or impossible.",
-      "coreConcept": "Cognitive load theory recognizes that working memory has limited capacity. Intrinsic load comes from task complexity, extraneous load from poor design, and germane load from learning itself. When combined load exceeds capacity, people struggle—they can't process information, make errors, and fail to learn. Effective design minimizes extraneous load (unnecessary complexity), manages intrinsic load (appropriate difficulty), and optimizes germane load (supports learning). Understanding cognitive load explains why simplicity matters and why overwhelm happens.",
-      "example": "**Airplane Cockpit Design:** Early aircraft cockpits were a chaotic array of different gauges, switches, and controls with inconsistent layouts. Pilots faced high cognitive load trying to find the right control in emergencies, leading to crashes.\nModern cockpit design deliberately minimizes cognitive load: standardized layouts (same control always in same location across aircraft), color coding, chunking of related controls, automation of routine tasks, and alerts drawing attention to critical issues. These changes dramatically reduced accidents by managing cognitive load. Pilots can focus mental resources on flying and decision-making rather than remembering where controls are. The same principles apply to software interfaces, learning materials, work processes—anything requiring human cognition. High cognitive load causes errors; good design manages load.",
-      "tryThis": "Assess your current cognitive load. Are you trying to hold too much in working memory (multitasking, too many projects, cluttered workspace, interruptions)? Reduce extraneous load: simplify, remove distractions, use external memory (write things down), focus on one thing at a time. Your working memory is precious—protect it by offloading, organizing, and simplifying. When teaching or designing, always ask: \"Does this impose unnecessary cognitive load?\"",
-      "related": [
-        "Mental Bandwidth",
-        "Chunking",
-        "Decision Fatigue"
       ]
     },
     {
@@ -1610,7 +1586,6 @@
       "example": "Software entropy (technical debt) accumulates inevitably. Clean code becomes tangled as features are added, edge cases handled, and quick fixes implemented under pressure. Without refactoring, testing, and documentation, codebases become unmaintainable—functions grow, dependencies multiply, and nobody understands the architecture. Eventually, development slows to a crawl and bugs proliferate. The only solution is continuous effort to combat entropy—regular refactoring, code reviews, and documentation. Companies that treat code as \"done\" after initial development find their competitive advantage eroding as entropy makes changes increasingly difficult and expensive.",
       "tryThis": "Identify something you maintain (relationships, skills, physical space). What happens if you stop maintaining it? That's entropy. What minimum effort prevents decay?",
       "related": [
-        "Technical Debt",
         "Systems Thinking",
         "Continuous Improvement"
       ]
@@ -1741,18 +1716,6 @@
       ]
     },
     {
-      "id": "product-ecosystems",
-      "title": "Ecosystems",
-      "category": "Product",
-      "principle": "Interconnected networks of entities that create and exchange value, where each member's success depends on the health of the whole system.",
-      "coreConcept": "Business ecosystems consist of companies, customers, suppliers, complementors, and regulators interacting in value networks. Like biological ecosystems, business ecosystems exhibit interdependence—platform success depends on developers, developers depend on users, users depend on content. Strong ecosystems create barriers to competition through network effects and switching costs. However, ecosystems are fragile—keystone species (dominant players) can damage the ecosystem through extraction. Healthy ecosystems balance value creation, capture, and distribution to maintain participation.",
-      "example": "Apple's ecosystem spans hardware (iPhone, iPad, Mac), software (iOS, macOS), services (App Store, iCloud, Apple Music), developers (millions creating apps), and accessories (AirPods, Apple Watch, cases). Each component increases value of others—better apps increase iPhone value, more iPhone users attract developers, accessories enhance usability. This interdependence creates switching costs—leaving iPhone means abandoning apps, accessories, and integration. The ecosystem's health depends on fair value distribution—Apple's 30% App Store commission generated developer complaints, risking ecosystem degradation. Managing ecosystem balance between value capture and member health determines long-term sustainability.",
-      "tryThis": "Map your business ecosystem—who are complementors, suppliers, distribution partners, and customers? How does each participant benefit? Where might ecosystem health be degrading?",
-      "related": [
-        "Network Effects"
-      ]
-    },
-    {
       "id": "product-minimum-viable-product",
       "title": "Minimum Viable Product",
       "category": "Product",
@@ -1782,7 +1745,6 @@
       "tryThis": "Is your product a platform or could it become one? What would others build on top if you opened interfaces? What governance model would balance control and ecosystem health?",
       "related": [
         "Network Effects",
-        "Ecosystems",
         "Two-Sided Markets"
       ]
     },
@@ -1917,19 +1879,6 @@
       "related": [
         "Information Asymmetry",
         "Adverse Selection"
-      ]
-    },
-    {
-      "id": "product-technical-debt",
-      "title": "Technical Debt",
-      "category": "Product",
-      "principle": "The implied cost of future rework caused by choosing quick, suboptimal solutions now instead of better approaches that would take longer.",
-      "coreConcept": "Ward Cunningham coined \"technical debt\" to explain how shortcuts in software create future obligations. Like financial debt, technical debt can be strategic (conscious trade-offs for speed) or reckless (poor decisions from ignorance). Interest accumulates—bad code makes future changes harder, compounding difficulty. Eventually, debt must be repaid through refactoring or the codebase becomes unmaintainable. Managing technical debt requires balance: too little debt means over-engineering and slow delivery; too much means inability to evolve. The key is conscious decisions and budgeting debt repayment.",
-      "example": "Twitter's technical debt nearly killed the company. Built quickly with Ruby on Rails to launch fast, the architecture couldn't scale. The \"fail whale\" (downtime error message) became infamous as the site crashed during peak usage. Twitter spent years rewriting core infrastructure in Scala and Java—essentially rebuilding while operating. This technical debt repayment required hundreds of engineers and delayed feature development. Strategic debt (launching fast) enabled Twitter's growth, but delaying repayment nearly caused collapse. The lesson: technical debt is inevitable, but compounding interest makes delayed repayment exponentially expensive.",
-      "tryThis": "Identify three shortcuts in your product that will require future fixing. Estimate the current cost to fix versus the future cost if delayed. That difference is technical debt interest.",
-      "related": [
-        "Opportunity Cost",
-        "Entropy"
       ]
     },
     {
@@ -2291,19 +2240,6 @@
       ]
     },
     {
-      "id": "process-coordination-cost",
-      "title": "Coordination Cost",
-      "category": "Process",
-      "principle": "The coordination cost that grows as team size and complexity increase.",
-      "coreConcept": "More people create more communication links, slowing decisions and increasing misunderstandings. Clear interfaces and asynchronous updates reduce the burden.",
-      "example": "A project spans five teams. Meetings and handoffs consume more time than actual build work. Delivery slows despite high effort.",
-      "tryThis": "Reduce dependencies and define clear interfaces. Replace recurring meetings with async updates.",
-      "related": [
-        "Brooks's Law",
-        "Conway's Law"
-      ]
-    },
-    {
       "id": "process-compound-growth",
       "title": "Compound Growth",
       "category": "Process",
@@ -2338,7 +2274,6 @@
       "example": "A leader makes dozens of decisions in the morning. By afternoon, they delay a high-stakes choice and default to the safest option. Quality drops as mental energy fades.",
       "tryThis": "Schedule important decisions early. Set defaults for low-stakes choices.",
       "related": [
-        "Cognitive Load",
         "Mental Bandwidth"
       ]
     },
@@ -3289,19 +3224,6 @@
       "id": "people-status-signaling"
     },
     {
-      "title": "Stereotyping",
-      "category": "People",
-      "principle": "Generalizations about groups distort judgment.",
-      "coreConcept": "Stereotypes simplify decisions but ignore individual differences.",
-      "example": "Assuming someone is inexperienced based on their age. This illustrates Stereotyping: Generalizations about groups distort judgment. In practice, Stereotypes simplify decisions but ignore individual differences.",
-      "tryThis": "Look for disconfirming evidence before acting on a stereotype. Notice when this pattern shows up today and pause before acting.",
-      "related": [
-        "Halo Effect",
-        "Representativeness Heuristic"
-      ],
-      "id": "people-stereotyping"
-    },
-    {
       "title": "Streetlight Effect",
       "category": "People",
       "principle": "We look for answers where it is easiest, not where it is correct.",
@@ -3348,18 +3270,6 @@
         "Spotlight Effect"
       ],
       "id": "people-illusion-of-transparency"
-    },
-    {
-      "title": "Varied Practice",
-      "category": "People",
-      "principle": "Practicing with variation improves transfer and retention.",
-      "coreConcept": "Mixing contexts strengthens flexible understanding.",
-      "example": "Practicing different problem types improves exam performance. This illustrates Varied Practice: Practicing with variation improves transfer and retention. In practice, Mixing contexts strengthens flexible understanding.",
-      "tryThis": "Interleave practice instead of repeating one type. Notice when this pattern shows up today and pause before acting.",
-      "related": [
-        "Interleaving"
-      ],
-      "id": "people-varied-practice"
     },
     {
       "title": "Winning Streak",

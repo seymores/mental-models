@@ -63,7 +63,8 @@
 }
 
 .orientation-guard__content {
-  width: min(420px, 100%);
+  width: 100%;
+  max-width: 420px;
   border: 1px solid var(--line);
   border-radius: var(--ui-radius-lg);
   padding: 22px 18px;
@@ -120,7 +121,9 @@
 }
 
 .app__header {
-  width: min(480px, 100%);
+  width: 100%;
+  max-width: 480px;
+  min-width: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -246,7 +249,9 @@
 .deck {
   position: relative;
   flex: 1;
-  width: min(480px, 100%);
+  width: 100%;
+  max-width: 480px;
+  min-width: 0;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -257,7 +262,9 @@
 .deck__stack {
   margin-top: 6px;
   position: relative;
-  width: min(420px, 94vw);
+  width: 100%;
+  max-width: 420px;
+  min-width: 0;
   height: calc(100% - 10vh + 10%);
   max-height: 840px;
   perspective: 1400px;
@@ -730,7 +737,8 @@
 
 .index-card {
   margin-top: max(46px, env(safe-area-inset-top));
-  width: min(480px, 100%);
+  width: 100%;
+  max-width: 480px;
   max-height: min(80dvh, 760px);
   border-radius: var(--ui-radius-lg);
   border: 1px solid var(--ui-border);
@@ -905,7 +913,9 @@
 }
 
 .app__footer {
-  width: min(480px, 100%);
+  width: 100%;
+  max-width: 480px;
+  min-width: 0;
   z-index: 1;
 }
 
