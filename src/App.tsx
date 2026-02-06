@@ -179,11 +179,15 @@ function App() {
   const currentCardId = total ? cards[currentIndexSafe]?.id : null
 
   const jumpToCard = useCallback(
-    (id: string) => {
+    (id: string, options?: { animate?: boolean }) => {
       if (!total) return
       resetFlip()
       resetDrag()
       jumpToId(id)
+      if (options?.animate === false) {
+        setIsJumping(false)
+        return
+      }
       if (jumpTimeout.current) {
         window.clearTimeout(jumpTimeout.current)
       }
@@ -216,7 +220,7 @@ function App() {
       setIndexQuery('')
       setIsIntroCardOpen(false)
       setIsIndexOpen(false)
-      jumpToCard(id)
+      jumpToCard(id, { animate: false })
     },
     [jumpToCard]
   )

@@ -256,6 +256,7 @@
   justify-content: center;
   align-items: flex-start;
   min-height: 0;
+  overflow: hidden;
   z-index: 1;
 }
 
@@ -267,6 +268,7 @@
   min-width: 0;
   height: calc(100% - 10vh + 10%);
   max-height: 840px;
+  overflow: clip;
   perspective: 1400px;
   perspective-origin: center;
 }
@@ -293,6 +295,9 @@
 .deck__card {
   position: absolute;
   inset: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   border-radius: 18px;
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 320ms ease;
@@ -306,6 +311,8 @@
 .deck__card-shell {
   height: 100%;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   perspective: 100em;
   perspective-origin: center;
   transform-style: preserve-3d;
@@ -344,6 +351,8 @@
 .card {
   height: 100%;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   border-radius: var(--card-radius, 18px);
   background: linear-gradient(var(--card-bg, var(--card)), var(--card-bg, var(--card)));
   border: none;
@@ -394,6 +403,9 @@
 .card__inner {
   position: absolute;
   inset: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   transform-style: preserve-3d;
   z-index: 1;
 }
