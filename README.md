@@ -153,7 +153,7 @@ In the app, these categories are used for theme styling and for deck composition
 123. Winning Streak
 124. Zone of Proximal Development
 
-### Process (59)
+### Process (58)
 1. 3Ms: Muda, Mura, and Muri
 2. 3P Framework (People, Process, Product)
 3. 5-5-5 Rule
@@ -168,7 +168,6 @@ In the app, these categories are used for theme styling and for deck composition
 12. Constraint Relaxation
 13. Continuous Improvement
 14. Critical Path
-15. Division of Labor
 16. Eisenhower Matrix
 17. Emergence
 18. Expected Value
@@ -214,7 +213,7 @@ In the app, these categories are used for theme styling and for deck composition
 58. Wardley Mapping
 59. What? So What? Now What? (WSWNW)
 
-### Product (77)
+### Product (78)
 1. 4C Truth Framework
 2. Activation Energy
 3. Adverse Selection
@@ -292,6 +291,7 @@ In the app, these categories are used for theme styling and for deck composition
 75. Winner-Take-All Markets
 76. Zero-Sum vs. Positive-Sum
 77. ZOPA
+78. RICE Prioritization Framework
 
 ## Data
 Deck payload files:

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01T11:12:18.076670Z",
+  "generatedAt": "2026-02-18T13:24:36.738Z",
   "count": 260,
   "models": [
     {
@@ -1747,8 +1747,7 @@
       "example": "Apple's manufacturing strategy exemplifies comparative advantage. Apple could manufacture iPhones in the US—it has capital and expertise. However, Apple's comparative advantage is design, software, and brand management. Foxconn's comparative advantage is manufacturing scale and operational efficiency. By specializing in design and outsourcing manufacturing, Apple creates more total value—better products at lower cost than if Apple manufactured or Foxconn designed. Even if Apple could manufacture cheaper than Foxconn (unlikely), it would still make sense to outsource because the opportunity cost of Apple's engineers doing manufacturing instead of design would be enormous.",
       "tryThis": "List tasks you perform regularly. For each, compare your efficiency to specialists. Even if you're competent, what's the opportunity cost of your time versus hiring specialists?",
       "related": [
-        "Opportunity Cost",
-        "Division of Labor"
+        "Opportunity Cost"
       ]
     },
     {
@@ -2197,18 +2196,6 @@
       "related": [
         "Interleaving",
         "Spacing Effect"
-      ]
-    },
-    {
-      "id": "process-division-of-labor",
-      "title": "Division of Labor",
-      "category": "Process",
-      "principle": "Specialization boosts efficiency by letting people focus on narrower tasks.",
-      "coreConcept": "Specialization increases speed and quality but adds coordination cost. The optimal split balances specialization with handoff friction.",
-      "example": "In a factory, workers specialize in specific steps. Output increases because each person becomes faster and more accurate. Coordination keeps the system flowing.",
-      "tryThis": "Break work into discrete steps and assign clear ownership. Monitor handoffs for delays.",
-      "related": [
-        "Comparative Advantage"
       ]
     },
     {
@@ -3454,6 +3441,22 @@
         "Loss Aversion",
         "Incentives",
         "Opportunity Cost"
+      ]
+    },
+    {
+      "id": "product-rice-prioritization-framework",
+      "title": "RICE Prioritization Framework",
+      "category": "Product",
+      "principle": "Prioritize initiatives by expected impact per unit effort using Reach, Impact, Confidence, and Effort.",
+      "coreConcept": "RICE is a scoring model for ranking opportunities when resources are constrained. Estimate Reach (how many users affected in a time period), Impact (effect per user), Confidence (how reliable your estimates are), and Effort (person-months). Calculate score as (Reach * Impact * Confidence) / Effort. The framework forces explicit assumptions, makes tradeoffs comparable, and reduces politics-driven prioritization by grounding choices in expected value and execution cost.",
+      "example": "**Roadmap Triage:** A team is choosing between three quarter initiatives: onboarding fixes, referral program, and dashboard redesign. Onboarding has moderate reach but high impact with high confidence and low effort; referrals have high potential reach but low confidence and higher effort; dashboard redesign has medium reach and medium impact with high effort. After scoring with RICE, onboarding ranks first, dashboard second, referrals third. The team ships onboarding first, learns from outcomes, then revisits estimates before committing to the next item. RICE doesn't guarantee perfect choices, but it creates transparent, testable prioritization logic.",
+      "tryThis": "For your next planning cycle, list 5 candidate initiatives and estimate Reach, Impact, Confidence, and Effort for each. Keep the time horizon consistent (for example, one quarter). Compute RICE scores, rank the list, and then challenge the top two assumptions behind each score. If a score depends on weak assumptions, reduce confidence and rerank. Use the final order as a starting point, not a mandate, and document why any override is justified.",
+      "related": [
+        "Expected Value",
+        "Opportunity Cost",
+        "Pareto Principle (80/20 Rule)",
+        "Marginal Analysis",
+        "Product-Market Fit"
       ]
     }
   ]
